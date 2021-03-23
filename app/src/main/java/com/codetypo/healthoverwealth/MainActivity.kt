@@ -12,8 +12,10 @@ private const val TAG : String = "HOMEPAGE_LOG"
 class MainActivity : AppCompatActivity() {
 
     private val firebaseRepo: FirebaseRepo = FirebaseRepo()
-    private var postList: List<PostModel> = ArrayList()
-    private val postListAdapter : PostListAdapter = PostListAdapter(postList);
+        //private var tileOrder: List<PostModel> = ArrayList()
+    //private var orderList = intArrayOf(0,1)
+    private var tileOrder = arrayOf("steps","water","bmi")
+    private val postListAdapter : PostListAdapter = PostListAdapter(tileOrder);
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +49,8 @@ class MainActivity : AppCompatActivity() {
     private fun loadTestData() {
         firebaseRepo.getPostlist().addOnCompleteListener {
             if(it.isSuccessful){
-                postList = it.result!!.toObjects(PostModel::class.java)
-                postListAdapter.postListItems = postList
+                //postList = it.result!!.toObjects(PostModel::class.java)
+               // postListAdapter.postListItems = postList
                 postListAdapter.notifyDataSetChanged()
             } else {
                 Log.d(TAG,"Error: ${it.exception!!.message}")
