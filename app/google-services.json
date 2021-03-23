@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681308876321",
+    "project_id": "health-over-wealth-aa77a",
+    "storage_bucket": "health-over-wealth-aa77a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681308876321:android:fa4584a5a2beb88a067d60",
+        "android_client_info": {
+          "package_name": "com.codetypo.healthoverwealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681308876321-hqrvm3mb0015i1mjcdbu3k0vf3gc559n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANth3kaSNiyJXZguqEHLWJvsMi5n6Ru3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681308876321-hqrvm3mb0015i1mjcdbu3k0vf3gc559n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
