@@ -18,12 +18,13 @@ class StepsActivity : AppCompatActivity() {
 
         private fun setBarChart() {
             val entries = ArrayList<BarEntry>()
-            entries.add(BarEntry(8f, 0f))
-            entries.add(BarEntry(2f, 1f))
-            entries.add(BarEntry(5f, 2f))
-            entries.add(BarEntry(20f, 3f))
-            entries.add(BarEntry(15f, 4f))
-            entries.add(BarEntry(19f, 5f))
+            entries.add(BarEntry(1f, 10000f))
+            entries.add(BarEntry(2f, 12000f))
+            entries.add(BarEntry(3f, 8000f))
+            entries.add(BarEntry(4f, 13125f))
+            entries.add(BarEntry(5f, 4500f))
+            entries.add(BarEntry(6f, 5750f))
+            entries.add(BarEntry(7f, 13000f))
 
             val barDataSet = BarDataSet(entries, "Cells")
 
