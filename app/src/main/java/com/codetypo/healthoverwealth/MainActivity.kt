@@ -2,20 +2,23 @@ package com.codetypo.healthoverwealth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.service.quicksettings.Tile
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG : String = "HOMEPAGE_LOG"
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),TileClickListener {
 
     private val firebaseRepo: FirebaseRepo = FirebaseRepo()
         //private var tileOrder: List<PostModel> = ArrayList()
     //private var orderList = intArrayOf(0,1)
-    private var tileOrder = arrayOf("steps","water","bmi")
-    private val postListAdapter : PostListAdapter = PostListAdapter(tileOrder);
+    private var tileOrder = arrayOf("steps","water","bmi","heartrate")
+    private val postListAdapter : PostListAdapter = PostListAdapter(tileOrder,this);
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,5 +59,9 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG,"Error: ${it.exception!!.message}")
             }
         }
+    }
+
+    override fun onTileClickListener() {
+        Toast.makeText(this, "tehee", Toast.LENGTH_SHORT).show()
     }
 }

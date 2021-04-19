@@ -1,5 +1,7 @@
 package com.codetypo.healthoverwealth
 
+import android.graphics.ColorSpace
+import android.service.quicksettings.Tile
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,20 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 private const val TILE_WATER = 0
 private const val TILE_BMI = 1
 private const val TILE_STEPS = 2
+private const val TILE_HEARTRATE = 3
 
 //class PostListAdapter (var postListItems:List<PostModel>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-class PostListAdapter (var tileOrder: Array<String>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class PostListAdapter (var tileOrder: Array<String>, val tileClickListener: TileClickListener):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    class DescViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(postModel: PostModel){
-//            itemView.desc_post_title.text = postModel.name
-//            itemView.desc_post_desc.text = postModel.last_name
-        }
-    }
-
-    class ImageViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(postModel: PostModel){
-
+    class TileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        fun bind(){
         }
     }
 
@@ -29,13 +24,16 @@ class PostListAdapter (var tileOrder: Array<String>):RecyclerView.Adapter<Recycl
         //View holders for all type of views
         if(viewType == TILE_WATER){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.water_tile,parent,false)
-            return DescViewHolder(view)
+            return TileViewHolder(view)
         } else if (viewType == TILE_BMI) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.bmi_tile,parent,false)
-            return ImageViewHolder(view)
-        } else {
+            return TileViewHolder(view)
+        } else if (viewType == TILE_HEARTRATE) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.steps_tile,parent,false)
-            return ImageViewHolder(view)
+            return TileViewHolder(view)
+        } else {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.heartrate_tile,parent,false)
+            return TileViewHolder(view)
         }
     }
 
@@ -44,6 +42,8 @@ class PostListAdapter (var tileOrder: Array<String>):RecyclerView.Adapter<Recycl
             return TILE_WATER
         } else if (tileOrder[position] == "bmi") {
             return TILE_BMI
+        } else if (tileOrder[position] == "heartrate"){
+            return TILE_HEARTRATE
         } else return  TILE_STEPS
     }
 
@@ -52,10 +52,7 @@ class PostListAdapter (var tileOrder: Array<String>):RecyclerView.Adapter<Recycl
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(getItemViewType(position)== TILE_WATER){
-           // (holder as DescViewHolder).bind(postListItems[position])
-        } else {
-          //  (holder as ImageViewHolder).bind(postListItems[position])
-        }
+        holder.itemView.setOnClickListener{tileClickListener.onTileClickListener()}
     }
+
 }
