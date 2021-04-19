@@ -1,5 +1,5 @@
 package com.codetypo.healthoverwealth
 
 interface TileClickListener {
-    fun onTileClickListener()
+    fun onTileClickListener(itemView: Int)
 }

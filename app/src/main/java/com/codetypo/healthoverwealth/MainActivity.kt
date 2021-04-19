@@ -1,12 +1,12 @@
 package com.codetypo.healthoverwealth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.quicksettings.Tile
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.codetypo.healthoverwealth.activities.StepsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG : String = "HOMEPAGE_LOG"
@@ -61,7 +61,11 @@ class MainActivity : AppCompatActivity(),TileClickListener {
         }
     }
 
-    override fun onTileClickListener() {
-        Toast.makeText(this, "tehee", Toast.LENGTH_SHORT).show()
+    override fun onTileClickListener(position: Int) {
+        Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
+        if (position == 0){
+            intent = Intent(this, StepsActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
