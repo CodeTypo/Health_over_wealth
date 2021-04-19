@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="3dp"
     android:layout_marginBottom="4dp"
-    android:clickable="true">
+    android:background="#FFFFFF"
+    android:clickable="true"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,8 +30,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="37dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,9 +42,10 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginTop="3dp"
             android:text="Water cups drank today:"
             android:textColor="#605D5D"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
@@ -84,8 +86,9 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:backgroundTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.551"
@@ -96,8 +99,9 @@
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:backgroundTint="#FFFFFF"
             android:layout_marginStart="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView5"

@@ -4,25 +4,25 @@
     <item
         android:id="@+id/home"
         android:title="Home"
-        android:icon="@drawable/menu_placeholder"
+        android:icon="@drawable/home_icon"
         />
 
     <item
         android:id="@+id/stats"
         android:title="Stats"
-        android:icon="@drawable/menu_placeholder"
+        android:icon="@drawable/stats_icon"
         />
 
     <item
         android:id="@+id/cup"
         android:title="Cup"
-        android:icon="@drawable/menu_placeholder"
+        android:icon="@drawable/cup_icon"
         />
 
     <item
         android:id="@+id/settings"
         android:title="Settings"
-        android:icon="@drawable/menu_placeholder"
+        android:icon="@drawable/settings_icon"
         />
 
 
