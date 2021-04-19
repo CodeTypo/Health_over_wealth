@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthOverWealth">
-        <activity android:name=".activities.StepsActivity"></activity>
+        <activity android:name=".activities.BmiActivity"></activity>
+        <activity android:name=".activities.WaterActivity" />
+        <activity android:name=".activities.HeartActivity" />
+        <activity android:name=".activities.StepsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

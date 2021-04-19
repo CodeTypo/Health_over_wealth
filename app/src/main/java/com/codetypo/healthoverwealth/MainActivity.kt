@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.codetypo.healthoverwealth.activities.BmiActivity
+import com.codetypo.healthoverwealth.activities.HeartActivity
 import com.codetypo.healthoverwealth.activities.StepsActivity
+import com.codetypo.healthoverwealth.activities.WaterActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TAG : String = "HOMEPAGE_LOG"
@@ -65,7 +68,16 @@ class MainActivity : AppCompatActivity(),TileClickListener {
         Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
         if (position == 0){
             intent = Intent(this, StepsActivity::class.java)
-            startActivity(intent)
         }
+        if (position == 1){
+            intent = Intent(this, WaterActivity::class.java)
+        }
+        if (position == 2){
+            intent = Intent(this, HeartActivity::class.java)
+        }
+        else {
+            intent = Intent(this, BmiActivity::class.java)
+        }
+        startActivity(intent)
     }
 }

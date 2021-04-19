@@ -1,10 +1,8 @@
 package com.codetypo.healthoverwealth.activities
 
-import android.graphics.Color.red
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.codetypo.healthoverwealth.R
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.activity_steps.*
 
