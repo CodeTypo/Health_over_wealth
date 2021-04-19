@@ -1,10 +1,15 @@
 package com.codetypo.healthoverwealth.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.R
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.components.LegendEntry
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.main.activity_steps.*
+import kotlin.collections.ArrayList
+
 
 class StepsActivity : AppCompatActivity() {
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +36,22 @@ class StepsActivity : AppCompatActivity() {
             //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS)
             barDataSet.color = resources.getColor(R.color.black)
 
-            barChart.animateY(5000)
+            barChart.animateY(3000)
+            val l1 = LegendEntry()
+            l1.label = "mon"
+            val l2 = LegendEntry()
+            l2.label = "tue"
+            val l3 = LegendEntry()
+            l3.label = "wed"
+            val l4 = LegendEntry()
+            l4.label = "thu"
+            val l5 = LegendEntry()
+            l5.label = "fri"
+            val l6 = LegendEntry()
+            l6.label = "sat"
+            val l7 = LegendEntry()
+            l7.label = "sun"
+            barChart.legend.setCustom(listOf(l1,l2,l3,l4,l5,l6,l7));
+
         }
     }

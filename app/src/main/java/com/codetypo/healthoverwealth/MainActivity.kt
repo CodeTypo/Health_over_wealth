@@ -66,17 +66,12 @@ class MainActivity : AppCompatActivity(),TileClickListener {
 
     override fun onTileClickListener(position: Int) {
         Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()
-        if (position == 0){
-            intent = Intent(this, StepsActivity::class.java)
-        }
-        if (position == 1){
-            intent = Intent(this, WaterActivity::class.java)
-        }
-        if (position == 2){
-            intent = Intent(this, HeartActivity::class.java)
-        }
-        else {
-            intent = Intent(this, BmiActivity::class.java)
+
+        intent = when (position) {
+            0 -> Intent(this, StepsActivity::class.java)
+            1 -> Intent(this, WaterActivity::class.java)
+            2 -> Intent(this, HeartActivity::class.java)
+            else -> Intent(this, BmiActivity::class.java)
         }
         startActivity(intent)
     }
