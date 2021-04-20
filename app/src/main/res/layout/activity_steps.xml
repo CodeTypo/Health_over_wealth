@@ -39,7 +39,7 @@
             android:id="@+id/textView8"
             android:layout_width="349dp"
             android:layout_height="21dp"
-            android:text="Total amounts of steps made this week:"
+            android:text="Total amount of steps made this week:"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
