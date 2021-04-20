@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(),TileClickListener {
     private val firebaseRepo: FirebaseRepo = FirebaseRepo()
         //private var tileOrder: List<PostModel> = ArrayList()
     //private var orderList = intArrayOf(0,1)
-    private var tileOrder = arrayOf("steps","water","bmi","heartrate")
+    private var tileOrder = arrayOf("steps","water","weight","bmi","heartrate")
     private val postListAdapter : PostListAdapter = PostListAdapter(tileOrder,this);
 
 

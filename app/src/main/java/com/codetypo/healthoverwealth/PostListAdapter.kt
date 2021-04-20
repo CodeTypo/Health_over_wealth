@@ -9,6 +9,7 @@ private const val TILE_WATER = 0
 private const val TILE_BMI = 1
 private const val TILE_STEPS = 2
 private const val TILE_HEARTRATE = 3
+private const val TILE_WEIGHT = 4
 
 //class PostListAdapter (var postListItems:List<PostModel>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 class PostListAdapter (var tileOrder: Array<String>, private val tileClickListener: TileClickListener):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -23,7 +24,11 @@ class PostListAdapter (var tileOrder: Array<String>, private val tileClickListen
         if(viewType == TILE_WATER){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.water_tile,parent,false)
             return TileViewHolder(view)
-        } else if (viewType == TILE_BMI) {
+        } else if(viewType == TILE_WEIGHT){
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.weight_tile,parent,false)
+            return TileViewHolder(view)
+        }
+        else if (viewType == TILE_BMI) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.bmi_tile,parent,false)
             return TileViewHolder(view)
         } else if (viewType == TILE_HEARTRATE) {
@@ -42,7 +47,10 @@ class PostListAdapter (var tileOrder: Array<String>, private val tileClickListen
             TILE_BMI
         } else if (tileOrder[position] == "heartrate"){
             TILE_HEARTRATE
-        } else TILE_STEPS
+        } else if(tileOrder[position] == "weight"){
+            TILE_WEIGHT
+        }
+        else TILE_STEPS
     }
 
     override fun getItemCount(): Int {
