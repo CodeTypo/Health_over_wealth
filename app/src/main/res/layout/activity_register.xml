@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".RegisterActivity">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tvEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Health over Wealth user login"
+        android:text="Health over Wealth user registration"
         android:textSize="22sp"
         android:textColor="@color/black"
         />
@@ -31,7 +32,7 @@
         tools:ignore="MissingConstraints">
 
         <EditText
-            android:id="@+id/loginEmail"
+            android:id="@+id/editEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -52,7 +53,7 @@
         tools:ignore="MissingConstraints">
 
         <EditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter password"
@@ -60,7 +61,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvPassword"
@@ -68,6 +69,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:text="Login" />
+        android:text="Register" />
+
+    <Button
+        android:id="@+id/btnLoginActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="Already registered? Sign in" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
