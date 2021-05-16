@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this){ task ->
                 if(task.isSuccessful){
                     Log.d("Task message","Successful login")
-                    startActivity(Intent(this, MainActivity::class.java));
+                    startActivity(Intent(this, FragmentMainActivity::class.java));
                 }else{
                     Log.d("Task message","Failed... " + task.exception)
                 }

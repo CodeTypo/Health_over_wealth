@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
            .addOnCompleteListener(this){ task ->
                if(task.isSuccessful){
                    Log.d("Task message","Successful registration")
-                   startActivity(Intent(this, MainActivity::class.java));
+                   startActivity(Intent(this, FragmentMainActivity::class.java));
 
                }else{
                    Log.d("Task message","Failed... " + task.exception)
@@ -60,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
 
         if(user!= null){
             Log.d("Action","User already logged in");
-            startActivity(Intent(this, MainActivity::class.java));
+            startActivity(Intent(this, FragmentMainActivity::class.java));
         }
 
     }
