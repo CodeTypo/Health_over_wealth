@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codetypo.healthoverwealth">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthOverWealth">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.CupActivity"></activity>
+        <activity
+            android:name=".FragmentMainActivity"
+            android:label="@string/title_activity_fragment_main"
+            android:theme="@style/Theme.HealthOverWealth.NoActionBar" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.BmiActivity" />
+        <activity android:name=".activities.WaterActivity" />
+        <activity android:name=".activities.HeartActivity" />
+        <activity android:name=".activities.StepsActivity" />
+        <activity android:name=".activities.StatsActivity" />
+        <activity android:name=".activities.SettingsActivity" />
     </application>
 
 </manifest>
