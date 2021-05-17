@@ -39,6 +39,17 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/water" />
 
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="31dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/increaseButton"
+            app:layout_constraintStart_toEndOf="@+id/decreaseButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.775"
+            app:srcCompat="@drawable/glass_of_water" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
