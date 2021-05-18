@@ -17,10 +17,6 @@ class WeightFragment : Fragment() {
 
     var weightInterface: WeightFragmentInterface? = null
 
-    companion object {
-        lateinit var mctx: Context
-    }
-
     private var model: Communicator? = null
 
     override fun onCreateView(

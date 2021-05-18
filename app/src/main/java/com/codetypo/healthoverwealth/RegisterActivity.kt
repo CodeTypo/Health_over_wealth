@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.codetypo.healthoverwealth.activities.BmiActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.login_form.*
+import kotlinx.android.synthetic.main.register_form.*
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth;
@@ -18,23 +20,24 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance();
         auth.signOut();
 
-        btnRegister.setOnClickListener {
+        btnSignUp.setOnClickListener {
             Log.d("Action", "clicked");
 
-            if (editEmail.text.trim().toString().isNotEmpty() || editPassword.text.trim().toString()
+            if (registerEmail.text.trim().toString().isNotEmpty() || registerPassword.text.trim().toString()
                     .isNotEmpty()
             ) {
                 Log.d("Action", "Input provided");
-                createUser(editEmail.text.trim().toString(), editPassword.text.trim().toString())
+                createUser(registerEmail.text.trim().toString(), registerPassword.text.trim().toString())
+                startActivity(Intent(this, LoginActivity::class.java));
 
             } else {
                 Log.d("Action", "Input required");
             }
         }
 
-        btnLoginActivity.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java));
-        }
+//        btnSignUp.setOnClickListener {
+//            startActivity(Intent(this, LoginActivity::class.java));
+//        }
 
     }
 
