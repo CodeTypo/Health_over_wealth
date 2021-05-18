@@ -10,12 +10,11 @@
     android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/weightBody"
+        android:layout_width="409dp"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/weightBody"
-        >
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -42,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
