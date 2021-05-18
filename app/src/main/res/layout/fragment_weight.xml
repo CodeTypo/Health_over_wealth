@@ -10,12 +10,11 @@
     android:clickable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:id="@+id/weightBody"
+        android:layout_width="409dp"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/weightBody"
-        >
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -42,23 +41,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="38dp"
+            android:layout_marginBottom="12dp"
             android:text="kg"
             android:textColor="#605D5D"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView4" />
+            app:layout_constraintBottom_toTopOf="@+id/simpleSeekBar"
+            app:layout_constraintStart_toEndOf="@+id/tvWeight" />
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="80"
+            android:id="@+id/tvWeight"
+            android:layout_width="115dp"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:text="80.0"
             android:textSize="42sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,9 +68,9 @@
             android:id="@+id/simpleSeekBar"
             android:layout_width="289dp"
             android:layout_height="21dp"
-            android:max="140"
-            android:min="60"
-            android:progress="80"
+            android:max="1400"
+            android:min="600"
+            android:progress="800"
             android:splitTrack="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

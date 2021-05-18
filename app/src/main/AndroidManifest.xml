@@ -13,13 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HealthOverWealth">
-        <activity android:name=".activities.CupActivity"></activity>
+        <activity android:name=".activities.SettingsActivity"></activity>
+        <activity android:name=".activities.CupActivity" />
         <activity
             android:name=".FragmentMainActivity"
             android:label="@string/title_activity_fragment_main"
             android:theme="@style/Theme.HealthOverWealth.NoActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +32,6 @@
         <activity android:name=".activities.HeartActivity" />
         <activity android:name=".activities.StepsActivity" />
         <activity android:name=".activities.StatsActivity" />
-        <activity android:name=".activities.SettingsActivity" />
     </application>
 
 </manifest>

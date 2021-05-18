@@ -1,28 +1,28 @@
 package com.codetypo.healthoverwealth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.activity_register.editEmail
-import kotlinx.android.synthetic.main.activity_register.editPassword
+import kotlinx.android.synthetic.main.login_form.*
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth;
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance();
 
-        btnLogin.setOnClickListener {
+        btnLogIn.setOnClickListener {
             Log.d("Action", "clicked");
 
-            if (loginEmail.text.trim().toString().isNotEmpty() || loginPassword.text.trim().toString().isNotEmpty())
-            {
+            if (loginEmail.text.trim().toString().isNotEmpty() || loginPassword.text.trim()
+                    .toString().isNotEmpty()
+            ) {
                 Log.d("Action", "Input provided");
                 signInUser(loginEmail.text.trim().toString(), loginPassword.text.trim().toString())
 
@@ -31,17 +31,20 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        inCreateAccount.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 
 
-    fun signInUser(email:String, password:String){
-        auth.signInWithEmailAndPassword(email,password)
-            .addOnCompleteListener(this){ task ->
-                if(task.isSuccessful){
-                    Log.d("Task message","Successful login")
+    fun signInUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("Task message", "Successful login")
                     startActivity(Intent(this, FragmentMainActivity::class.java));
-                }else{
-                    Log.d("Task message","Failed... " + task.exception)
+                } else {
+                    Log.d("Task message", "Failed... " + task.exception)
                 }
             }
     }

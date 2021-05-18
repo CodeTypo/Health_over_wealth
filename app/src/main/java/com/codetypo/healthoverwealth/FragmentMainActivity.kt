@@ -6,15 +6,17 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.codetypo.healthoverwealth.activities.*
 import com.codetypo.healthoverwealth.fragments.*
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_fragment_main.*
 
-class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInterface, StepsFragment.StepsFragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener,
-                            BmiFragment.BmiFragmentInterface, HeartrateFragment.HeartrateFragmentInterface, WeightFragment.WeightFragmentInterface{
+class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInterface,
+    StepsFragment.StepsFragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener,
+    BmiFragment.BmiFragmentInterface, HeartrateFragment.HeartrateFragmentInterface,
+    WeightFragment.WeightFragmentInterface {
 
     private val firebaseRepo: FirebaseRepo = FirebaseRepo()
     private lateinit var navBar: BottomNavigationView
@@ -23,8 +25,6 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
     var hrFragment: HeartrateFragment? = null
     var waterFragment: WaterFragment? = null
     var weightFragment: WeightFragment? = null
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +45,14 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
         transaction.add(R.id.fragmentHeartrate, hrFragment!!)
         transaction.commit()
 
-        navBar=bottomNavBar
+        navBar = bottomNavBar
         navBar.setOnNavigationItemSelectedListener(this)
 
         //check user login
-        if(firebaseRepo.getUser()==null){
+        if (firebaseRepo.getUser() == null) {
             //create a new one
             firebaseRepo.createUser().addOnCompleteListener {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     //load data
                     loadTestData()
                 } else {
@@ -67,11 +67,11 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
     private fun loadTestData() {
         firebaseRepo.getPostlist().addOnCompleteListener {
-            if(it.isSuccessful){
+            if (it.isSuccessful) {
                 //postList = it.result!!.toObjects(PostModel::class.java)
                 // postListAdapter.postListItems = postList
             } else {
-                Log.d("Main","Error: ${it.exception!!.message}")
+                Log.d("Main", "Error: ${it.exception!!.message}")
             }
         }
     }
@@ -105,14 +105,14 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
     override fun onBmiBodyClicked() {
         val intent = Intent(this, BmiActivity::class.java)
-        startActivity(intent)    }
+        startActivity(intent)
+    }
 
     override fun onHrBodyClicked() {
         val intent = Intent(this, HeartActivity::class.java)
-        startActivity(intent)    }
+        startActivity(intent)
+    }
 
     override fun onWeightBodyClicked() {
-   }
-
-
+    }
 }
