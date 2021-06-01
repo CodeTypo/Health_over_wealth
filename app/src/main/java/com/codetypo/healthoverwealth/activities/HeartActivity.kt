@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.TextView
 import com.codetypo.healthoverwealth.R
 import kotlinx.android.synthetic.main.activity_heart.*
+import kotlin.math.roundToInt
 
 class HeartActivity : AppCompatActivity(), SensorEventListener {
     var sensorMgr: SensorManager? = null
@@ -30,7 +31,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sensorMgr!!.registerListener(this, heartRate, 2000000)
+        sensorMgr!!.registerListener(this, heartRate, 1000000)
     }
 
     override fun onPause() {
@@ -40,8 +41,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
-            Log.d("SENSOR", event.values[0].toString())
-            heartTV?.text = event.values[0].toString()
+            heartTV?.text = event.values[0].roundToInt().toString()
         }
     }
 

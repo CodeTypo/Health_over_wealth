@@ -69,7 +69,7 @@
             android:layout_width="289dp"
             android:layout_height="21dp"
             android:max="1400"
-            android:min="600"
+            android:min="500"
             android:progress="800"
             android:splitTrack="false"
             app:layout_constraintBottom_toBottomOf="parent"
