@@ -40,8 +40,8 @@
             android:id="@+id/textView8"
             android:layout_width="349dp"
             android:layout_height="21dp"
-            android:text="Total amount of steps made this week:"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            android:text="Total amount of steps made today:"
+            app:layout_constraintBottom_toTopOf="@+id/stepCounterTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,18 +53,17 @@
             android:layout_width="349dp"
             android:layout_height="21dp"
             android:text="Weekly goal:"
-            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintBottom_toTopOf="@+id/weeklyGoalTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/stepCounterTV"
             app:layout_constraintVertical_bias="0.088" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/stepCounterTV"
             android:layout_width="349dp"
             android:layout_height="wrap_content"
-            android:text="56 250"
             android:textAlignment="center"
             android:textSize="32sp"
             app:layout_constraintBottom_toTopOf="@+id/textView9"
@@ -75,13 +74,13 @@
             app:layout_constraintVertical_bias="0.06" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/weeklyGoalTV"
             android:layout_width="349dp"
             android:layout_height="wrap_content"
             android:text="50 000"
             android:textAlignment="center"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView11"
+            app:layout_constraintBottom_toTopOf="@+id/goalProgressTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,18 +88,18 @@
             app:layout_constraintVertical_bias="0.623" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/goalProgressTV"
             android:layout_width="349dp"
             android:layout_height="wrap_content"
-            android:text="Goal achieved!"
+            android:text="Work in Progress!"
             android:textAlignment="center"
-            android:textColor="#11AC44"
+            android:textColor="#FF9800"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/weeklyGoalTV"
             app:layout_constraintVertical_bias="0.899" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
