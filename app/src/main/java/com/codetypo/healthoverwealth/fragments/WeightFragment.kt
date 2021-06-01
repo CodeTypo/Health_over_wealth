@@ -2,6 +2,7 @@ package com.codetypo.healthoverwealth.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.codetypo.healthoverwealth.R
 import com.codetypo.healthoverwealth.communicator.Communicator
+import com.codetypo.healthoverwealth.models.WeightModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_weight.*
 
 class WeightFragment : Fragment() {
@@ -42,6 +48,25 @@ class WeightFragment : Fragment() {
             weightInterface?.onWeightBodyClicked()
         }
 
+        val database = FirebaseDatabase.getInstance()
+
+        val WeightModel = database.reference.child("WeightModel")
+
+        WeightModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val weight = snapshot.child("weight")
+                    tvWeight.text = weight.getValue(String::class.java)
+                    val progress = weight.getValue(String::class.java)!!.toFloat()
+
+                    simpleSeekBar.progress = (progress * 10).toInt()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
         simpleSeekBar?.setOnSeekBarChangeListener(object :
             OnSeekBarChangeListener {
 
@@ -66,6 +91,10 @@ class WeightFragment : Fragment() {
                 fragmentTransaction.replace(R.id.fragmentBmi, myfragment)
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
+
+                val weightValue = WeightModel("" + progress1)
+
+                WeightModel.setValue(weightValue)
             }
         })
     }
