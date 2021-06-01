@@ -1,6 +1,13 @@
 package com.codetypo.healthoverwealth.activities
 
+import android.graphics.Color
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.R
 import com.github.mikephil.charting.components.Legend
@@ -13,11 +20,19 @@ import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.main.activity_steps.*
 
 
-class StepsActivity : AppCompatActivity() {
+class StepsActivity : AppCompatActivity(), SensorEventListener {
+    var sensorMgr: SensorManager? = null
+    var stepCounter : Sensor? = null;
+    var stepsTV: TextView? = null
+
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_steps)
             setBarChart()
+
+            stepsTV = stepCounterTV;
+            sensorMgr = this.getSystemService(SENSOR_SERVICE) as SensorManager
+            stepCounter = sensorMgr!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         }
 
         private fun setBarChart() {
@@ -68,4 +83,30 @@ class StepsActivity : AppCompatActivity() {
             l.setCustom(listOf(l1,l2,l3,l4,l5,l6,l7));
             l.xEntrySpace = 10f; // space between the legend entries on the x-axis
         }
+
+    override fun onResume() {
+        super.onResume()
+        sensorMgr!!.registerListener(this, stepCounter, 2000000)
     }
+
+    override fun onPause() {
+        super.onPause()
+        sensorMgr!!.unregisterListener(this)
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event != null) {
+            Log.d("SENSOR", event.values[0].toString())
+            stepsTV?.text = event.values[0].toString()
+//            if (event.values[0] > (weeklyGoalTV.text.toString()).toFloat()){
+//                Log.d("STEPS_ACTIV","goal accomplished")
+//                goalProgressTV.text = "Goal Achieved!"
+//                goalProgressTV.setTextColor(Color.GREEN)
+//            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        Log.d("ACC","changed")
+    }
+}

@@ -1,17 +1,18 @@
 package com.codetypo.healthoverwealth
 
 import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.codetypo.healthoverwealth.activities.*
 import com.codetypo.healthoverwealth.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_fragment_main.*
+import kotlinx.android.synthetic.main.activity_fragment_main.bottomNavBar
+
 
 class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInterface,
     StepsFragment.StepsFragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener,
@@ -115,4 +116,8 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
     override fun onWeightBodyClicked() {
     }
+
+
+
+
 }
