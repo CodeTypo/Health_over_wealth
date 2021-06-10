@@ -35,20 +35,39 @@ class BmiFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
-
         val database = FirebaseDatabase.getInstance()
+        val bmiModel = database.reference.child("BmiModel")
+        val heightModel = database.reference.child("HeightModel")
+        var height = 0.0
 
-        val BmiModel = database.reference.child("BmiModel")
-
-        BmiModel.addValueEventListener(object : ValueEventListener {
+        bmiModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val bmi = snapshot.child("bmi")
-                    val result = snapshot.child("result")
-                    val color = snapshot.child("color")
-                    tvBMI.text = bmi.getValue(String::class.java)
-                    tvResult.text = result.getValue(String::class.java)
-                    tvResult.setTextColor(Color.parseColor(color.getValue(String::class.java)))
+                try {
+                    if (snapshot.exists()) {
+                        val bmi = snapshot.child("bmi")
+                        val result = snapshot.child("result")
+                        val color = snapshot.child("color")
+                        tvBMI.text = bmi.getValue(String::class.java)
+                        tvResult.text = result.getValue(String::class.java)
+                        tvResult.setTextColor(Color.parseColor(color.getValue(String::class.java)))
+                    }
+                } catch (e: Exception) {
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        heightModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.exists()) {
+                        val heightValue = snapshot.child("height")
+                        height = heightValue.getValue(String::class.java).toString().toDouble()
+                    }
+                } catch (e: Exception) {
                 }
             }
 
@@ -59,7 +78,7 @@ class BmiFragment : Fragment() {
         btnCalculate.setOnClickListener {
 
             model.weight.observe(viewLifecycleOwner, Observer<Any> { o ->
-                val bmiValue = ((o!!.toString().toDouble() * 100 / 1.7.pow(2.0)).toInt() / 100.0)
+                val bmiValue = ((o!!.toString().toDouble() * 100 / height.pow(2.0)).toInt() / 100.0)
 
                 tvBMI.text = bmiValue.toString()
 
@@ -117,9 +136,9 @@ class BmiFragment : Fragment() {
                     }
                 }
 
-                val BmiValue = BmiModel(bmiValue.toString(), result, colorString)
+                val newBmiValue = BmiModel(bmiValue.toString(), result, colorString)
 
-                BmiModel.setValue(BmiValue)
+                bmiModel.setValue(newBmiValue)
             })
         }
 
