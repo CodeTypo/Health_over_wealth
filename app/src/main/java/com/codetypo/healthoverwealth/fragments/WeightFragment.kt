@@ -2,7 +2,6 @@ package com.codetypo.healthoverwealth.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,9 +49,9 @@ class WeightFragment : Fragment() {
 
         val database = FirebaseDatabase.getInstance()
 
-        val WeightModel = database.reference.child("WeightModel")
+        val weightModel = database.reference.child("WeightModel")
 
-        WeightModel.addValueEventListener(object : ValueEventListener {
+        weightModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val weight = snapshot.child("weight")
@@ -94,7 +93,7 @@ class WeightFragment : Fragment() {
 
                 val weightValue = WeightModel("" + progress1)
 
-                WeightModel.setValue(weightValue)
+                weightModel.setValue(weightValue)
             }
         })
     }

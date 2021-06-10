@@ -116,8 +116,4 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
     override fun onWeightBodyClicked() {
     }
-
-
-
-
 }
