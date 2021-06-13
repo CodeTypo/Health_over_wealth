@@ -3,6 +3,7 @@ package com.codetypo.healthoverwealth.fragments
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.codetypo.healthoverwealth.R
 import com.codetypo.healthoverwealth.communicator.Communicator
 import com.codetypo.healthoverwealth.models.BmiModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,9 +38,12 @@ class BmiFragment : Fragment() {
 
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         val database = FirebaseDatabase.getInstance()
-        val bmiModel = database.reference.child("BmiModel")
-        val heightModel = database.reference.child("HeightModel")
-        var height = 0.0
+
+        val uuid = FirebaseAuth.getInstance().currentUser?.uid
+
+        val bmiModel = database.reference.child(uuid.toString()).child("BmiModel")
+        val heightModel = database.reference.child(uuid.toString()).child("HeightModel")
+        var height = 1.8
 
         bmiModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -88,7 +93,7 @@ class BmiFragment : Fragment() {
                 when {
                     bmiValue < 16 -> {
                         tvResult!!.text = "starvation"
-                        tvResult.setTextColor(Color.parseColor("FF0000"))
+                        tvResult.setTextColor(Color.parseColor("#FF0000"))
                         colorString = "#FF0000"
                         result = "starvation"
                     }

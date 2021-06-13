@@ -9,6 +9,7 @@ import com.codetypo.healthoverwealth.FragmentMainActivity
 import com.codetypo.healthoverwealth.R
 import com.codetypo.healthoverwealth.models.HeightModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.bottomNavBar
@@ -26,7 +27,9 @@ class SettingsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationI
 
         val database = FirebaseDatabase.getInstance()
 
-        val heightModel = database.reference.child("HeightModel")
+        val uuid = FirebaseAuth.getInstance().currentUser?.uid
+
+        val heightModel = database.reference.child(uuid.toString()).child("HeightModel")
 
         btnSaveHeight.setOnClickListener {
             if(etHeight.text.toString().isNotEmpty() && etHeight.text.toString().toDouble() > 1.3 && etHeight.text.toString().toDouble() < 2.3) {
