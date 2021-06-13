@@ -27,9 +27,9 @@ class SettingsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationI
 
         val database = FirebaseDatabase.getInstance()
 
-        val uuid = FirebaseAuth.getInstance().currentUser?.uid
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val heightModel = database.reference.child(uuid.toString()).child("HeightModel")
+        val heightModel = database.reference.child(uid.toString()).child("HeightModel")
 
         btnSaveHeight.setOnClickListener {
             if(etHeight.text.toString().isNotEmpty() && etHeight.text.toString().toDouble() > 1.3 && etHeight.text.toString().toDouble() < 2.3) {

@@ -1,5 +1,6 @@
 package com.codetypo.healthoverwealth.activities
 
+import android.content.SharedPreferences
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -16,7 +17,13 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_steps.*
+import java.time.LocalDate
 
 
 class StepsActivity : AppCompatActivity(), SensorEventListener {
@@ -24,6 +31,10 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     var running = false
     var sensorMgr: SensorManager? = null
     var stepsTV: TextView? = null
+
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
+    val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,11 +110,13 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         super.onPause()
         running = false
         sensorMgr!!.unregisterListener(this)
+
+        stepsModel.child("" + LocalDate.now().dayOfWeek).setValue(stepsTV?.text.toString())
     }
 
     override fun onSensorChanged(event: SensorEvent) {
         if (running) {
-            stepsTV?.text = event.values[0].toString()
+            stepsTV?.text = (event.values[0].toInt()).toString()
         }
     }
 
