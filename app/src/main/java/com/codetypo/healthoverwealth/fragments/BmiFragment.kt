@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.codetypo.healthoverwealth.R
-import com.codetypo.healthoverwealth.communicator.Communicator
 import com.codetypo.healthoverwealth.models.BmiModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -35,13 +32,14 @@ class BmiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         val database = FirebaseDatabase.getInstance()
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
         val bmiModel = database.reference.child(uid.toString()).child("BmiModel")
         val heightModel = database.reference.child(uid.toString()).child("HeightModel")
+        val weightModel = database.reference.child(uid.toString()).child("WeightModel")
+        var weight = 80.0
         var height = 1.8
 
         bmiModel.addValueEventListener(object : ValueEventListener {
@@ -57,6 +55,21 @@ class BmiFragment : Fragment() {
                     }
                 } catch (e: Exception) {
 
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        weightModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.exists()) {
+                        val weightValue = snapshot.child("weight")
+                        weight = weightValue.getValue(String::class.java).toString().toDouble()
+                    }
+                } catch (e: Exception) {
                 }
             }
 
@@ -80,72 +93,68 @@ class BmiFragment : Fragment() {
         })
 
         btnCalculate.setOnClickListener {
+            val bmiValue = (weight * 100 / height.pow(2.0)).toInt() / 100.0
 
-            model.weight.observe(viewLifecycleOwner, Observer<Any> { o ->
-                val bmiValue = ((o!!.toString().toDouble() * 100 / height.pow(2.0)).toInt() / 100.0)
+            tvBMI.text = bmiValue.toString()
 
-                tvBMI.text = bmiValue.toString()
+            val colorString: String
+            val result: String
 
-                val colorString: String
-                val result: String
-
-                when {
-                    bmiValue < 16 -> {
-                        tvResult!!.text = "starvation"
-                        tvResult.setTextColor(Color.parseColor("#FF0000"))
-                        colorString = "#FF0000"
-                        result = "starvation"
-                    }
-                    bmiValue < 17 -> {
-                        tvResult!!.text = "emaciation"
-                        tvResult.setTextColor(Color.parseColor("#FF8C00"))
-                        colorString = "#FF8C00"
-                        result = "emaciation"
-                    }
-                    bmiValue < 18.5 -> {
-                        tvResult!!.text = "underweight"
-                        tvResult.setTextColor(Color.parseColor("#FFA500"))
-                        colorString = "#FFA500"
-                        result = "underweight"
-                    }
-                    bmiValue < 25 -> {
-                        tvResult!!.text = "normal"
-                        tvResult.setTextColor(Color.parseColor("#7CC679"))
-                        colorString = "#7CC679"
-                        result = "normal"
-                    }
-                    bmiValue < 30 -> {
-                        tvResult!!.text = "overweight"
-                        tvResult.setTextColor(Color.parseColor("#FFA500"))
-                        colorString = "#FFA500"
-                        result = "overweight"
-                    }
-                    bmiValue < 35 -> {
-                        tvResult!!.text = "1st degree obesity"
-                        tvResult.setTextColor(Color.parseColor("#FF8C00"))
-                        colorString = "#FF8C00"
-                        result = "1st degree obesity"
-                    }
-                    bmiValue < 40 -> {
-                        tvResult!!.text = "2nd degree obesity"
-                        tvResult.setTextColor(Color.parseColor("#FF0000"))
-                        colorString = "#FF0000"
-                        result = "2nd degree obesity"
-                    }
-                    else -> {
-                        tvResult!!.text = "3rd degree obesity"
-                        tvResult.setTextColor(Color.parseColor("#8B0000"))
-                        colorString = "#8B0000"
-                        result = "3rd degree obesity"
-                    }
+            when {
+                bmiValue < 16 -> {
+                    tvResult!!.text = "starvation"
+                    tvResult.setTextColor(Color.parseColor("#FF0000"))
+                    colorString = "#FF0000"
+                    result = "starvation"
                 }
+                bmiValue < 17 -> {
+                    tvResult!!.text = "emaciation"
+                    tvResult.setTextColor(Color.parseColor("#FF8C00"))
+                    colorString = "#FF8C00"
+                    result = "emaciation"
+                }
+                bmiValue < 18.5 -> {
+                    tvResult!!.text = "underweight"
+                    tvResult.setTextColor(Color.parseColor("#FFA500"))
+                    colorString = "#FFA500"
+                    result = "underweight"
+                }
+                bmiValue < 25 -> {
+                    tvResult!!.text = "normal"
+                    tvResult.setTextColor(Color.parseColor("#7CC679"))
+                    colorString = "#7CC679"
+                    result = "normal"
+                }
+                bmiValue < 30 -> {
+                    tvResult!!.text = "overweight"
+                    tvResult.setTextColor(Color.parseColor("#FFA500"))
+                    colorString = "#FFA500"
+                    result = "overweight"
+                }
+                bmiValue < 35 -> {
+                    tvResult!!.text = "1st degree obesity"
+                    tvResult.setTextColor(Color.parseColor("#FF8C00"))
+                    colorString = "#FF8C00"
+                    result = "1st degree obesity"
+                }
+                bmiValue < 40 -> {
+                    tvResult!!.text = "2nd degree obesity"
+                    tvResult.setTextColor(Color.parseColor("#FF0000"))
+                    colorString = "#FF0000"
+                    result = "2nd degree obesity"
+                }
+                else -> {
+                    tvResult!!.text = "3rd degree obesity"
+                    tvResult.setTextColor(Color.parseColor("#8B0000"))
+                    colorString = "#8B0000"
+                    result = "3rd degree obesity"
+                }
+            }
 
-                val newBmiValue = BmiModel(bmiValue.toString(), result, colorString)
+            val newBmiValue = BmiModel(bmiValue.toString(), result, colorString)
 
-                bmiModel.setValue(newBmiValue)
-            })
+            bmiModel.setValue(newBmiValue)
         }
-
     }
 
     override fun onAttach(context: Context) {

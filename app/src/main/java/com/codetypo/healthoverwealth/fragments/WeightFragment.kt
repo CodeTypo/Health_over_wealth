@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.codetypo.healthoverwealth.R
-import com.codetypo.healthoverwealth.communicator.Communicator
 import com.codetypo.healthoverwealth.models.WeightModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -22,8 +20,6 @@ import kotlinx.android.synthetic.main.fragment_weight.*
 class WeightFragment : Fragment() {
 
     var weightInterface: WeightFragmentInterface? = null
-
-    private var model: Communicator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,16 +80,6 @@ class WeightFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(seek: SeekBar) {
-                model = ViewModelProviders.of(activity!!).get(Communicator::class.java)
-
-                model!!.setWeight("" + progress1)
-
-                val myfragment = BmiFragment()
-                val fragmentTransaction = fragmentManager!!.beginTransaction()
-                fragmentTransaction.replace(R.id.fragmentBmi, myfragment)
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
-
                 val weightValue = WeightModel("" + progress1)
 
                 weightModel.setValue(weightValue)
