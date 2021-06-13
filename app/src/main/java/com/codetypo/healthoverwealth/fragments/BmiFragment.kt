@@ -3,7 +3,6 @@ package com.codetypo.healthoverwealth.fragments
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +38,10 @@ class BmiFragment : Fragment() {
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         val database = FirebaseDatabase.getInstance()
 
-        val uuid = FirebaseAuth.getInstance().currentUser?.uid
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val bmiModel = database.reference.child(uuid.toString()).child("BmiModel")
-        val heightModel = database.reference.child(uuid.toString()).child("HeightModel")
+        val bmiModel = database.reference.child(uid.toString()).child("BmiModel")
+        val heightModel = database.reference.child(uid.toString()).child("HeightModel")
         var height = 1.8
 
         bmiModel.addValueEventListener(object : ValueEventListener {
