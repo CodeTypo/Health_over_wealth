@@ -34,7 +34,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         heartTV = heartMonitorTV
         sensorMgr = this.getSystemService(SENSOR_SERVICE) as SensorManager
         heartRate = sensorMgr!!.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        Log.d("HR_ACTIV","CREATED")
+
 
         var data = LineData()
         data.setValueTextColor(Color.RED)
@@ -51,7 +51,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
         val leftAxis =heart_chart.axisLeft
         leftAxis.textColor = Color.BLACK
-        leftAxis.axisMinimum = 30f
+        leftAxis.axisMinimum = 25f
         leftAxis.axisMaximum = 150f
         leftAxis.setDrawGridLines(false)
         leftAxis.isEnabled = false
@@ -69,6 +69,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
     private fun createSet(): LineDataSet? {
         val set = LineDataSet(null, "Heart rate")
+        set.mode = LineDataSet.Mode.CUBIC_BEZIER
         set.axisDependency = YAxis.AxisDependency.LEFT
         set.color = Color.RED
         set.setCircleColor(Color.RED)
@@ -93,7 +94,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
                 data.addDataSet(set)
             }
 
-            val entryvalue = ((Math.random() * 40) + 30f)
+            val entryvalue = ((Math.random() * 90) + 30f)
 
             data.addEntry((Entry(set.entryCount.toFloat(),
                 entryvalue.toFloat())),0)
@@ -104,7 +105,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
             heart_chart.notifyDataSetChanged()
 
             // limit the number of visible entries
-            heart_chart.setVisibleXRangeMaximum(40F)
+            heart_chart.setVisibleXRangeMaximum(20F)
 
             // move to the latest entry
             heart_chart.moveViewToX(data.entryCount.toFloat())
@@ -120,7 +121,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
                 // Don't generate garbage runnables inside the loop.
                 runOnUiThread(runnable)
                 try {
-                    Thread.sleep(100)
+                    Thread.sleep(30)
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
