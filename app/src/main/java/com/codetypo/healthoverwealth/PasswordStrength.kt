@@ -1,7 +1,6 @@
 package com.codetypo.healthoverwealth
 
 import android.graphics.Color
-import android.util.Log
 
 enum class PasswordStrength(private var resId: Int, color: Int) {
 

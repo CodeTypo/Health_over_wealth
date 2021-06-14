@@ -116,10 +116,9 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/tvPasswordErrorMessage"
+        android:id="@+id/tvPasswordMessage"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorRed"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.286"
