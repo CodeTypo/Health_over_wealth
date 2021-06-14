@@ -18,4 +18,9 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="password_strength_weak">WEAK</string>
+    <string name="password_strength_medium">MEDIUM</string>
+    <string name="password_strength_strong">STRONG</string>
+    <string name="password_strength_very_strong">VERY STRONG</string>
 </resources>
