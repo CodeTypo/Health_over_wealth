@@ -66,8 +66,21 @@ class SettingsActivity : AppCompatActivity(),
             }
         }
 
-//        btnSavePassword.setOnClickListener {
-//        }
+        btnSavePassword.setOnClickListener {
+            if (etNewPassword.text.toString() == etConfirmPassword.text.toString() && etNewPassword.text.length > 5) {
+                val user = FirebaseAuth.getInstance().currentUser
+                user?.updatePassword(etNewPassword.text.toString())
+
+                tvPasswordMessage.text = "Password changed!"
+                tvPasswordMessage.setTextColor(Color.parseColor("#7CC679"))
+            } else if (etNewPassword.text.toString() != etConfirmPassword.text.toString()) {
+                tvPasswordMessage.text = "Passwords are different!"
+                tvPasswordMessage.setTextColor(Color.parseColor("#8B0000"))
+            } else {
+                tvPasswordMessage.text = "Password must be at least 6 characters long!"
+                tvPasswordMessage.setTextColor(Color.parseColor("#8B0000"))
+            }
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -75,7 +88,7 @@ class SettingsActivity : AppCompatActivity(),
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
             R.id.navStats -> Intent(this, StatsActivity::class.java)
             R.id.navCup -> Intent(this, CupActivity::class.java)
-            else -> { // Note the block
+            else -> {
                 return false
             }
         }
