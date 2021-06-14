@@ -1,6 +1,7 @@
 package com.codetypo.healthoverwealth.activities
 
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -10,10 +11,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.R
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.LegendEntry
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -32,6 +30,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     var running = false
     var sensorMgr: SensorManager? = null
     var stepsTV: TextView? = null
+    var weeklySteps = 0f
 
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -61,7 +60,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
         if(daysSteps.containsKey("MONDAY")) {
-            daysSteps.get("MONDAY")?.toDouble()?.let { BarEntry(1f, it.toFloat()) }?.let {
+            daysSteps.get("MONDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(1f, it.toFloat()) }?.let{
                 entries.add(it)
             }
         } else{
@@ -69,7 +70,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
         if(daysSteps.containsKey("TUESDAY")) {
-            daysSteps.get("TUESDAY")?.toDouble()?.let { BarEntry(2f, it.toFloat()) }?.let {
+            daysSteps.get("TUESDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(2f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
@@ -77,7 +80,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
         if(daysSteps.containsKey("WEDNESDAY")) {
-            daysSteps.get("WEDNESDAY")?.toDouble()?.let { BarEntry(3f, it.toFloat()) }?.let {
+            daysSteps.get("WEDNESDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(3f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
@@ -86,7 +91,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
 
         if(daysSteps.containsKey("THURSDAY")) {
-            daysSteps.get("THURSDAY")?.toDouble()?.let { BarEntry(4f, it.toFloat()) }?.let {
+            daysSteps.get("THURSDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(4f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
@@ -95,7 +102,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
 
         if(daysSteps.containsKey("FRIDAY")) {
-            daysSteps.get("FRIDAY")?.toDouble()?.let { BarEntry(5f, it.toFloat()) }?.let {
+            daysSteps.get("FRIDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(5f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
@@ -104,7 +113,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
 
         if(daysSteps.containsKey("SATURDAY")) {
-            daysSteps.get("SATURDAY")?.toDouble()?.let { BarEntry(6f, it.toFloat()) }?.let {
+            daysSteps.get("SATURDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(6f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
@@ -113,12 +124,23 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
 
         if(daysSteps.containsKey("SUNDAY")) {
-            daysSteps.get("SUNDAY")?.toDouble()?.let { BarEntry(7f, it.toFloat()) }?.let {
+            daysSteps.get("SUNDAY")?.toDouble()?.let {
+                weeklySteps += it.toFloat()
+                BarEntry(7f, it.toFloat()) }?.let {
                 entries.add(it)
             }
         } else{
             entries.add(BarEntry(7f, 0f))
         }
+
+        stepsTV?.text = weeklySteps.toInt().toString()
+
+        if (weeklySteps.toInt() >= Integer.parseInt(weeklyGoalTV.text.toString().replace("\\s".toRegex(), ""))){
+            goalProgressTV.text = "Goal accomplished,\n good job!"
+            goalProgressTV.setTextColor(Color.parseColor("#3CB371"))
+
+        }
+
 
         val barDataSet = BarDataSet(entries, "Cells")
 
@@ -157,6 +179,18 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         val l: Legend = barChart.getLegend()
         l.setCustom(listOf(l1, l2, l3, l4, l5, l6, l7));
         l.xEntrySpace = 10f; // space between the legend entries on the x-axis
+        val d = Description()
+        d.text=""
+        barChart.description= d
+        barChart.setDrawGridBackground(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setDrawBorders(false);
+
+        barChart.getAxisLeft().setEnabled(false);
+        barChart.getAxisRight().setDrawAxisLine(false);
+        barChart.getAxisRight().setDrawGridLines(false);
+        barChart.getXAxis().setDrawAxisLine(false);
+        barChart.getXAxis().setDrawGridLines(false);
     }
 
     override fun onResume() {
