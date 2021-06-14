@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_steps.*
 import java.time.LocalDate
 
 
+
 class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     var running = false
@@ -35,25 +36,89 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
     val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
+    var daysSteps = hashMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_steps)
-        setBarChart()
 
         stepsTV = stepCounterTV
         sensorMgr = getSystemService(SENSOR_SERVICE) as SensorManager
+
+        if (uid != null) {
+            stepsModel.get().addOnSuccessListener {
+                @Suppress("UNCHECKED_CAST")
+                daysSteps = it.value as HashMap<String, String>
+                Log.i("firebase", "Got value ${daysSteps}")
+                setBarChart()
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
+        }
+
     }
 
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(1f, 10000f))
-        entries.add(BarEntry(2f, 12000f))
-        entries.add(BarEntry(3f, 8000f))
-        entries.add(BarEntry(4f, 13125f))
-        entries.add(BarEntry(5f, 4500f))
-        entries.add(BarEntry(6f, 5750f))
-        entries.add(BarEntry(7f, 13000f))
+        if(daysSteps.containsKey("MONDAY")) {
+            daysSteps.get("MONDAY")?.toDouble()?.let { BarEntry(1f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(1f, 0f))
+        }
+
+        if(daysSteps.containsKey("TUESDAY")) {
+            daysSteps.get("TUESDAY")?.toDouble()?.let { BarEntry(2f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(2f, 0f))
+        }
+
+        if(daysSteps.containsKey("WEDNESDAY")) {
+            daysSteps.get("WEDNESDAY")?.toDouble()?.let { BarEntry(3f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(3f, 0f))
+        }
+
+
+        if(daysSteps.containsKey("THURSDAY")) {
+            daysSteps.get("THURSDAY")?.toDouble()?.let { BarEntry(4f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(4f, 0f))
+        }
+
+
+        if(daysSteps.containsKey("FRIDAY")) {
+            daysSteps.get("FRIDAY")?.toDouble()?.let { BarEntry(5f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(5f, 0f))
+        }
+
+
+        if(daysSteps.containsKey("SATURDAY")) {
+            daysSteps.get("SATURDAY")?.toDouble()?.let { BarEntry(6f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(6f, 0f))
+        }
+
+
+        if(daysSteps.containsKey("SUNDAY")) {
+            daysSteps.get("SUNDAY")?.toDouble()?.let { BarEntry(7f, it.toFloat()) }?.let {
+                entries.add(it)
+            }
+        } else{
+            entries.add(BarEntry(7f, 0f))
+        }
 
         val barDataSet = BarDataSet(entries, "Cells")
 
