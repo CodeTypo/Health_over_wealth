@@ -178,7 +178,10 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         l7.label = "sun"
         val l: Legend = barChart.getLegend()
         l.setCustom(listOf(l1, l2, l3, l4, l5, l6, l7));
-        l.xEntrySpace = 10f; // space between the legend entries on the x-axis
+        l.verticalAlignment=Legend.LegendVerticalAlignment.BOTTOM
+        l.horizontalAlignment=Legend.LegendHorizontalAlignment.CENTER
+        l.xEntrySpace = 22f; // space between the legend entries on the x-axis
+
         val d = Description()
         d.text=""
         barChart.description= d
@@ -187,10 +190,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         barChart.setDrawBorders(false);
 
         barChart.getAxisLeft().setEnabled(false);
-        barChart.getAxisRight().setDrawAxisLine(false);
-        barChart.getAxisRight().setDrawGridLines(false);
-        barChart.getXAxis().setDrawAxisLine(false);
-        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getAxisRight().setEnabled(false)
     }
 
     override fun onResume() {
