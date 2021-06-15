@@ -273,11 +273,11 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                     editor.putInt("STEPS_SENSOR_VALUE", event.values[0].toInt())
                     editor.apply()
                     stepsMadeToday = 0
-                } else {
-                    stepsMadeToday =
-                        event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
                 }
             }
+
+            stepsMadeToday =
+                event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
         }
     }
 

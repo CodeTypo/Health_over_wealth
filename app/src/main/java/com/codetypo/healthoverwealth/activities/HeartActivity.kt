@@ -22,7 +22,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_heart.*
-import kotlinx.android.synthetic.main.activity_steps.*
 import kotlin.math.roundToInt
 
 

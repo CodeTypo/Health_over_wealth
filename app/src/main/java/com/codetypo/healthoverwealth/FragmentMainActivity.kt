@@ -1,7 +1,6 @@
 package com.codetypo.healthoverwealth
 
 import android.content.Intent
-
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -11,19 +10,19 @@ import androidx.fragment.app.FragmentTransaction
 import com.codetypo.healthoverwealth.activities.*
 import com.codetypo.healthoverwealth.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_fragment_main.bottomNavBar
+import kotlinx.android.synthetic.main.activity_fragment_main.*
 
 
 class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInterface,
     StepsFragment.StepsFragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener,
-    BmiFragment.BmiFragmentInterface, HeartrateFragment.HeartrateFragmentInterface,
+    BmiFragment.BmiFragmentInterface, HeartRateFragment.HeartrateFragmentInterface,
     WeightFragment.WeightFragmentInterface {
 
     private val firebaseRepo: FirebaseRepo = FirebaseRepo()
     private lateinit var navBar: BottomNavigationView
     var stepsFragment: StepsFragment? = null
     var bmiFragment: BmiFragment? = null
-    var hrFragment: HeartrateFragment? = null
+    var hrFragment: HeartRateFragment? = null
     var waterFragment: WaterFragment? = null
     var weightFragment: WeightFragment? = null
 
@@ -34,7 +33,7 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
         stepsFragment = StepsFragment()
         bmiFragment = BmiFragment()
-        hrFragment = HeartrateFragment()
+        hrFragment = HeartRateFragment()
         waterFragment = WaterFragment()
         weightFragment = WeightFragment()
 

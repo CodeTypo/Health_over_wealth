@@ -1,9 +1,9 @@
 package com.codetypo.healthoverwealth.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.FragmentMainActivity
 import com.codetypo.healthoverwealth.R
 import com.google.android.material.bottomnavigation.BottomNavigationView

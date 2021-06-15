@@ -95,7 +95,8 @@ class SettingsActivity : AppCompatActivity(),
                 tvStepsTargetMessage.text = "Steps target changed!"
                 tvStepsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
             } else {
-                tvStepsTargetMessage.text = "Invalid steps target value! Enter a value between 10,000 and 100,000."
+                tvStepsTargetMessage.text =
+                    "Invalid steps target value! Enter a value between 10,000 and 100,000."
                 tvStepsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
             }
         }
