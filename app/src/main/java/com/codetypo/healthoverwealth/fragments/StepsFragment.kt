@@ -42,13 +42,13 @@ class StepsFragment : Fragment() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
+        val stepsModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
 
         stepsModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val stepsValue = snapshot.child(LocalDate.now().dayOfWeek.toString())
+                        val stepsValue = snapshot.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
                         tvStepsMadeToday.text = stepsValue.getValue(String::class.java).toString()
                     }
                 } catch (e: Exception) {

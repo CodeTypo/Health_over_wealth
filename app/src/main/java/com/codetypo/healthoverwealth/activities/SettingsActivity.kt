@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity(),
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val heightModel = database.reference.child(uid.toString()).child("HeightModel")
+        val heightModel = database.reference.child(uid.toString()).child("HEIGHT_MODEL")
 
         btnSaveHeight.setOnClickListener {
             if (etHeight.text.toString().isNotEmpty() && etHeight.text.toString()
@@ -88,9 +88,9 @@ class SettingsActivity : AppCompatActivity(),
 
                 val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-                val stepsTargetModel = database.reference.child(uid.toString()).child("StepsModel")
+                val stepsTargetModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
 
-                stepsTargetModel.child("StepsTarget").setValue(etStepsTarget.text.toString())
+                stepsTargetModel.child("steps_target").setValue(etStepsTarget.text.toString())
 
                 tvStepsTargetMessage.text = "Steps target changed!"
                 tvStepsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
@@ -106,7 +106,6 @@ class SettingsActivity : AppCompatActivity(),
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
             R.id.navStats -> Intent(this, StatsActivity::class.java)
-//            R.id.navCup -> Intent(this, CupActivity::class.java)
             else -> {
                 return false
             }

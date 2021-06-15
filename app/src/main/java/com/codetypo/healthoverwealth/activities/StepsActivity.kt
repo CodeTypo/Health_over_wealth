@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_steps.*
 import java.time.LocalDate
 
-
 class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     var running = false
@@ -33,7 +32,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
-    val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
+    val stepsModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
+
     var daysSteps = hashMapOf<String, String>()
 
     var preferences: SharedPreferences? = null
@@ -48,18 +48,14 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
         preferences = this.getSharedPreferences("PREFERENCES", MODE_PRIVATE)
 
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-        val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
-
         stepsModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val stepsTargetValue = snapshot.child("StepsTarget")
-                        weeklyGoalTV.text = stepsTargetValue.getValue(String::class.java).toString()
+                        val stepsTargetValue =
+                            snapshot.child("steps_target").getValue(String::class.java).toString()
+                        if (stepsTargetValue != "null")
+                            weeklyGoalTV.text = stepsTargetValue
                     }
                 } catch (e: Exception) {
                 }
@@ -77,16 +73,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
         }
 
-        if (uid != null) {
-            stepsModel.get().addOnSuccessListener {
-                @Suppress("UNCHECKED_CAST")
-                daysSteps = it.value as HashMap<String, String>
-                Log.i("firebase", "Got value ${daysSteps}")
-                setBarChart()
-            }.addOnFailureListener {
-                Log.e("firebase", "Error getting data", it)
-            }
-        }
 
     }
 
@@ -183,7 +169,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
         }
 
-
         val barDataSet = BarDataSet(entries, "Cells")
 
         val data = BarData(barDataSet)
@@ -251,7 +236,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         running = false
         sensorMgr!!.unregisterListener(this)
 
-        stepsModel.child("" + LocalDate.now().dayOfWeek).setValue(stepsMadeToday.toString())
+        stepsModel.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
+            .setValue(stepsMadeToday.toString())
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -272,7 +258,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                     editor.putBoolean("FIRST_LAUNCH", false)
                     editor.putInt("STEPS_SENSOR_VALUE", event.values[0].toInt())
                     editor.apply()
-                    stepsMadeToday = 0
                 }
             }
 

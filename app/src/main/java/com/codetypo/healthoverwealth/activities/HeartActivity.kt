@@ -51,7 +51,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val heartRateValue = snapshot.child("HeartRateModel")
+                        val heartRateValue = snapshot.child("HEART_RATE_MODEL")
                         entryValue = heartRateValue.getValue(String::class.java).toString().toInt()
                     }
                 } catch (e: Exception) {
@@ -140,7 +140,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
                 val uid = FirebaseAuth.getInstance().currentUser?.uid
 
                 val heartRateModel =
-                    database.reference.child(uid.toString()).child("HeartRateModel")
+                    database.reference.child(uid.toString()).child("HEART_RATE_MODEL").child("heart_rate")
 
                 heartRateModel.setValue(entryValue.toString())
 

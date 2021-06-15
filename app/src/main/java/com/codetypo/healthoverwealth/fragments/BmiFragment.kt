@@ -36,9 +36,9 @@ class BmiFragment : Fragment() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val bmiModel = database.reference.child(uid.toString()).child("BmiModel")
-        val heightModel = database.reference.child(uid.toString()).child("HeightModel")
-        val weightModel = database.reference.child(uid.toString()).child("WeightModel")
+        val bmiModel = database.reference.child(uid.toString()).child("BMI_MODEL")
+        val heightModel = database.reference.child(uid.toString()).child("HEIGHT_MODEL")
+        val weightModel = database.reference.child(uid.toString()).child("WEIGHT_MODEL")
         var weight = 80.0
         var height = 1.8
 
