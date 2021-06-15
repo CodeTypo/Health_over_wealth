@@ -44,6 +44,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         stepsTV = stepCounterTV
         sensorMgr = getSystemService(SENSOR_SERVICE) as SensorManager
 
+        goalProgressTV.text = "Work in progress, keep it up!"
+        goalProgressTV.setTextColor(Color.parseColor("#FF7F50"))
+
         if (uid != null) {
             stepsModel.get().addOnSuccessListener {
                 @Suppress("UNCHECKED_CAST")
