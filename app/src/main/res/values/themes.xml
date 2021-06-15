@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.HealthOverWealth" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/colorWhite</item>
+        <item name="colorPrimary">#ECECEC</item>
+        <item name="colorPrimaryVariant">#ECECEC</item>
+        <item name="colorOnPrimary">#605D5D</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>

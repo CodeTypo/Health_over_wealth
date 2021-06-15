@@ -87,7 +87,7 @@ class SettingsActivity : AppCompatActivity(),
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
             R.id.navStats -> Intent(this, StatsActivity::class.java)
-            R.id.navCup -> Intent(this, CupActivity::class.java)
+//            R.id.navCup -> Intent(this, CupActivity::class.java)
             else -> {
                 return false
             }
