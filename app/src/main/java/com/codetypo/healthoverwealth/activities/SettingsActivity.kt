@@ -39,11 +39,11 @@ class SettingsActivity : AppCompatActivity(),
             ) {
                 val heightValue = HeightModel(etHeight.text.toString())
                 heightModel.setValue(heightValue)
-                tvHeightErrorMessage.text = "Saved!"
-                tvHeightErrorMessage.setTextColor(Color.parseColor("#7CC679"))
+                tvHeightMessage.text = "Saved!"
+                tvHeightMessage.setTextColor(Color.parseColor("#7CC679"))
             } else {
-                tvHeightErrorMessage.text = "Invalid height value!"
-                tvHeightErrorMessage.setTextColor(Color.parseColor("#8B0000"))
+                tvHeightMessage.text = "Invalid height value!"
+                tvHeightMessage.setTextColor(Color.parseColor("#8B0000"))
             }
         }
 
@@ -79,6 +79,25 @@ class SettingsActivity : AppCompatActivity(),
             } else {
                 tvPasswordMessage.text = "Password must be at least 6 characters long!"
                 tvPasswordMessage.setTextColor(Color.parseColor("#8B0000"))
+            }
+        }
+
+        btnSaveStepsTarget.setOnClickListener {
+            if (etStepsTarget.text.toString().toInt() in 10000..100000) {
+                val database = FirebaseDatabase.getInstance()
+
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+                val stepsTargetModel = database.reference.child(uid.toString()).child("StepsModel")
+
+                stepsTargetModel.child("StepsTarget").setValue(etStepsTarget.text.toString())
+
+                tvStepsTargetMessage.text = "Steps target changed!"
+                tvStepsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
+            } else {
+                tvStepsTargetMessage.text =
+                    "Invalid steps target value! Enter a value between 10,000 and 100,000."
+                tvStepsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
             }
         }
     }

@@ -1,14 +1,10 @@
 package com.codetypo.healthoverwealth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.codetypo.healthoverwealth.activities.BmiActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.login_form.*
 import kotlinx.android.synthetic.main.register_form.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -23,11 +19,13 @@ class RegisterActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             Log.d("Action", "clicked");
 
-            if (registerEmail.text.trim().toString().isNotEmpty() || registerPassword.text.trim().toString()
+            if (registerEmail.text.trim().toString().isNotEmpty() || registerPassword.text.trim()
+                    .toString()
                     .isNotEmpty()
             ) {
                 Log.d("Action", "Input provided");
-                createUser(registerEmail.text.trim().toString(), registerPassword.text.trim().toString())
+                createUser(registerEmail.text.trim().toString(),
+                    registerPassword.text.trim().toString())
                 startActivity(Intent(this, LoginActivity::class.java));
 
             } else {
@@ -35,24 +33,20 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
 
-//        btnSignUp.setOnClickListener {
-//            startActivity(Intent(this, LoginActivity::class.java));
-//        }
-
     }
 
 
-    fun createUser(email:String, password:String){
-       auth.createUserWithEmailAndPassword(email,password)
-           .addOnCompleteListener(this){ task ->
-               if(task.isSuccessful){
-                   Log.d("Task message","Successful registration")
-                   startActivity(Intent(this, FragmentMainActivity::class.java));
+    private fun createUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Log.d("Task message", "Successful registration")
+                    startActivity(Intent(this, FragmentMainActivity::class.java));
 
-               }else{
-                   Log.d("Task message","Failed... " + task.exception)
-               }
-           }
+                } else {
+                    Log.d("Task message", "Failed... " + task.exception)
+                }
+            }
 
     }
 
@@ -61,8 +55,8 @@ class RegisterActivity : AppCompatActivity() {
         auth.signOut();
         val user = auth.currentUser;
 
-        if(user!= null){
-            Log.d("Action","User already logged in");
+        if (user != null) {
+            Log.d("Action", "User already logged in");
             startActivity(Intent(this, FragmentMainActivity::class.java));
         }
 

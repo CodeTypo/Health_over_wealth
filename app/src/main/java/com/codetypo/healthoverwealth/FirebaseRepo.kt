@@ -10,21 +10,18 @@ import com.google.firebase.firestore.QuerySnapshot
 class FirebaseRepo {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseFirestore : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    //Authentication
-    fun getUser(): FirebaseUser?{
+    fun getUser(): FirebaseUser? {
         return firebaseAuth.currentUser
     }
 
-    fun createUser() : Task<AuthResult>{
+    fun createUser(): Task<AuthResult> {
         return firebaseAuth.signInAnonymously()
     }
 
-    //firestore
-    fun getPostlist(): Task<QuerySnapshot>{
+    fun getPostlist(): Task<QuerySnapshot> {
         return firebaseFirestore.collection("Testing").get()
     }
-
 
 }

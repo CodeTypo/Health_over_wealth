@@ -1,7 +1,7 @@
 package com.codetypo.healthoverwealth.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.R
 
 class BmiActivity : AppCompatActivity() {
