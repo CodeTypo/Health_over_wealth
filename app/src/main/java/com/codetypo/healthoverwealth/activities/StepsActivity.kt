@@ -257,14 +257,16 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent) {
         if (running) {
 
-            if(preferences!!.getBoolean("FIRST_LAUNCH", true)){
+            if (preferences!!.getBoolean("FIRST_LAUNCH", true)) {
                 val editor = preferences!!.edit()
                 editor.putString("STEPS_DAY", LocalDate.now().dayOfWeek.toString())
                 editor.putBoolean("FIRST_LAUNCH", false)
                 editor.putInt("STEPS_SENSOR_VALUE", event.values[0].toInt())
                 editor.apply()
-            } else{
-                if(LocalDate.now().dayOfWeek.toString() != preferences!!.getString("STEPS_DAY", "DAY").toString()){
+            } else {
+                if (LocalDate.now().dayOfWeek.toString() != preferences!!.getString("STEPS_DAY",
+                        "DAY").toString()
+                ) {
                     val editor = preferences!!.edit()
                     editor.putString("STEPS_DAY", LocalDate.now().dayOfWeek.toString())
                     editor.putBoolean("FIRST_LAUNCH", false)
@@ -272,7 +274,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                     editor.apply()
                     stepsMadeToday = 0
                 } else {
-                    stepsMadeToday = event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE",0)
+                    stepsMadeToday =
+                        event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
                 }
             }
         }

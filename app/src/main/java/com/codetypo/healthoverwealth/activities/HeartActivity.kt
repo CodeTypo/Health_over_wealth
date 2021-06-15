@@ -17,8 +17,12 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_heart.*
+import kotlinx.android.synthetic.main.activity_steps.*
 import kotlin.math.roundToInt
 
 
@@ -27,7 +31,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     var heartRate: Sensor? = null
     var heartTV: TextView? = null
     var thread: Thread? = null
-    var entryValue = 0
+    var entryValue = 80
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +40,28 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         heartTV = heartMonitorTV
         sensorMgr = this.getSystemService(SENSOR_SERVICE) as SensorManager
         heartRate = sensorMgr!!.getDefaultSensor(Sensor.TYPE_HEART_RATE)
+
+        val database = FirebaseDatabase.getInstance()
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        val heartRateModel =
+            database.reference.child(uid.toString())
+
+        heartRateModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.exists()) {
+                        val heartRateValue = snapshot.child("HeartRateModel")
+                        entryValue = heartRateValue.getValue(String::class.java).toString().toInt()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
 
 
         val data = LineData()
@@ -64,9 +90,6 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
         val rightAxis = heart_chart.axisRight
         rightAxis.isEnabled = false
-
-//        feedMultiple()
-
     }
 
     private fun createSet(): LineDataSet {
