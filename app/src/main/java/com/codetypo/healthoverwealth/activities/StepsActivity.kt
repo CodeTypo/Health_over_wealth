@@ -54,7 +54,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                     if (snapshot.exists()) {
                         val stepsTargetValue =
                             snapshot.child("steps_target").getValue(String::class.java).toString()
-                        if (stepsTargetValue != "null")
+                        if (!stepsTargetValue.equals("null"))
                             weeklyGoalTV.text = stepsTargetValue
                     }
                 } catch (e: Exception) {
@@ -70,16 +70,24 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         ) {
             goalProgressTV.text = "Goal accomplished,\n good job!"
             goalProgressTV.setTextColor(Color.parseColor("#3CB371"))
-
         }
 
-
+        if (uid != null) {
+            stepsModel.get().addOnSuccessListener {
+                @Suppress("UNCHECKED_CAST")
+                daysSteps = it.value as HashMap<String, String>
+                Log.i("firebase", "Got value ${daysSteps}")
+                setBarChart()
+            }.addOnFailureListener {
+                Log.e("firebase", "Error getting data", it)
+            }
+        }
     }
 
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
-        if (daysSteps.containsKey("MONDAY")) {
-            daysSteps["MONDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("monday")) {
+            daysSteps["monday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(1f, it.toFloat())
             }?.let {
@@ -89,8 +97,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             entries.add(BarEntry(1f, 0f))
         }
 
-        if (daysSteps.containsKey("TUESDAY")) {
-            daysSteps["TUESDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("tuesday")) {
+            daysSteps["tuesday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(2f, it.toFloat())
             }?.let {
@@ -100,8 +108,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             entries.add(BarEntry(2f, 0f))
         }
 
-        if (daysSteps.containsKey("WEDNESDAY")) {
-            daysSteps["WEDNESDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("wednesday")) {
+            daysSteps["wednesday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(3f, it.toFloat())
             }?.let {
@@ -112,8 +120,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("THURSDAY")) {
-            daysSteps["THURSDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("thursday")) {
+            daysSteps["thursday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(4f, it.toFloat())
             }?.let {
@@ -124,8 +132,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("FRIDAY")) {
-            daysSteps["FRIDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("friday")) {
+            daysSteps["friday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(5f, it.toFloat())
             }?.let {
@@ -136,8 +144,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("SATURDAY")) {
-            daysSteps["SATURDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("saturday")) {
+            daysSteps["saturday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(6f, it.toFloat())
             }?.let {
@@ -148,8 +156,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("SUNDAY")) {
-            daysSteps.get("SUNDAY")?.toDouble()?.let {
+        if (daysSteps.containsKey("sunday")) {
+            daysSteps.get("sunday")?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(7f, it.toFloat())
             }?.let {
