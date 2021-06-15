@@ -18,7 +18,7 @@ class CupActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cup)
         navBar = bottomNavBar
-        navBar.selectedItemId = R.id.navCup
+//        navBar.selectedItemId = R.id.navCup
         navBar.setOnNavigationItemSelectedListener(this)
 
     }

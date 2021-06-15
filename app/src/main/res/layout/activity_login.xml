@@ -31,7 +31,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="160dp"
             android:background="@drawable/bottom_bg" />
     </LinearLayout>
 </RelativeLayout>

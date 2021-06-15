@@ -14,12 +14,6 @@
         />
 
     <item
-        android:id="@+id/navCup"
-        android:title="Cup"
-        android:icon="@drawable/cup_icon"
-        />
-
-    <item
         android:id="@+id/navSettings"
         android:title="Settings"
         android:icon="@drawable/settings_icon"
