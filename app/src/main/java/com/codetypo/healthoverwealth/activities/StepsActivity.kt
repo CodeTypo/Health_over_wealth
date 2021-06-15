@@ -43,6 +43,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         stepsTV = stepCounterTV
         sensorMgr = getSystemService(SENSOR_SERVICE) as SensorManager
 
+        goalProgressTV.text = "Work in progress, keep it up!"
+        goalProgressTV.setTextColor(Color.parseColor("#FF7F50"))
+
         preferences = this.getSharedPreferences("PREFERENCES", MODE_PRIVATE)
 
         if (uid != null) {
