@@ -20,13 +20,13 @@ class WaterFragment : Fragment() {
     var waterInterface: WaterFragmentInterface? = null
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
-    val waterDrunkModel = database.reference.child(uid.toString()).child("WaterDrunkModel")
+    val waterDrunkModel = database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
+        .child(LocalDate.now().dayOfWeek.toString().toLowerCase())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_water, container, false)
     }
 
@@ -41,15 +41,15 @@ class WaterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         waterDrunkModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val waterDrunkValue = snapshot.child(LocalDate.now().dayOfWeek.toString())
+                        val waterDrunkValue = snapshot.child("water_drunk")
+                        val cupValue = snapshot.child("cup")
                         milliliters.text =
                             waterDrunkValue.getValue(String::class.java).toString()
-                        cupCounter.text = (milliliters.text.toString().toInt() / 250).toString()
+                        cupCounter.text = cupValue.getValue(String::class.java).toString()
                     }
                 } catch (e: Exception) {
                 }
@@ -68,8 +68,10 @@ class WaterFragment : Fragment() {
             cupCounter.text = (cups).toString()
             milliliters.text = (cups * 250).toString()
 
-            waterDrunkModel.child("" + LocalDate.now().dayOfWeek)
+            waterDrunkModel.child("water_drunk")
                 .setValue(milliliters.text.toString())
+            waterDrunkModel.child("cup")
+                .setValue(cupCounter.text.toString())
         }
 
         decreaseButton.setOnClickListener {
@@ -79,8 +81,10 @@ class WaterFragment : Fragment() {
             cupCounter.text = (cups).toString()
             milliliters.text = (cups * 250).toString()
 
-            waterDrunkModel.child("" + LocalDate.now().dayOfWeek)
+            waterDrunkModel.child("water_drunk")
                 .setValue(milliliters.text.toString())
+            waterDrunkModel.child("cup")
+                .setValue(cupCounter.text.toString())
         }
 
         waterBody.setOnClickListener {
@@ -89,7 +93,6 @@ class WaterFragment : Fragment() {
 
     }
 
-    // Container Activity must implement this interface
     interface WaterFragmentInterface {
         fun onWaterButtonClicked()
         fun onWaterBodyClicked()

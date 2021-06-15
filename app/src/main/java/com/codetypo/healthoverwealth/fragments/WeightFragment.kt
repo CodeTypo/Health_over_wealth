@@ -48,7 +48,7 @@ class WeightFragment : Fragment() {
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        val weightModel = database.reference.child(uid.toString()).child("WeightModel")
+        val weightModel = database.reference.child(uid.toString()).child("WEIGHT_MODEL")
 
         weightModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

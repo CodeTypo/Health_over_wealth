@@ -18,6 +18,10 @@ class HeartRateFragment : Fragment() {
 
     var hrInterface: HeartrateFragmentInterface? = null
 
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
+    val heartRateModel = database.reference.child(uid.toString()).child("HEART_RATE_MODEL")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,17 +31,12 @@ class HeartRateFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-        val heartRateModel = database.reference.child(uid.toString())
 
         heartRateModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val heartRateValue = snapshot.child("HeartRateModel")
+                        val heartRateValue = snapshot.child("heart_rate")
                         lastHeartRateTV.text =
                             heartRateValue.getValue(String::class.java).toString()
                     }

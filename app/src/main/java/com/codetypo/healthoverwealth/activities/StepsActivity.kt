@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_steps.*
 import java.time.LocalDate
 
-
 class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     var running = false
@@ -33,7 +32,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
-    val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
+    val stepsModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
+
     var daysSteps = hashMapOf<String, String>()
 
     var preferences: SharedPreferences? = null
@@ -48,18 +48,14 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
         preferences = this.getSharedPreferences("PREFERENCES", MODE_PRIVATE)
 
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-        val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
-
         stepsModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val stepsTargetValue = snapshot.child("StepsTarget")
-                        weeklyGoalTV.text = stepsTargetValue.getValue(String::class.java).toString()
+                        val stepsTargetValue =
+                            snapshot.child("steps_target").getValue(String::class.java).toString()
+                        if (!stepsTargetValue.equals("null"))
+                            weeklyGoalTV.text = stepsTargetValue
                     }
                 } catch (e: Exception) {
                 }
@@ -74,7 +70,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         ) {
             goalProgressTV.text = "Goal accomplished,\n good job!"
             goalProgressTV.setTextColor(Color.parseColor("#3CB371"))
-
         }
 
         if (uid != null) {
@@ -87,13 +82,12 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                 Log.e("firebase", "Error getting data", it)
             }
         }
-
     }
 
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
-        if (daysSteps.containsKey("MONDAY")) {
-            daysSteps["MONDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("monday")) {
+            daysSteps["monday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(1f, it.toFloat())
             }?.let {
@@ -103,8 +97,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             entries.add(BarEntry(1f, 0f))
         }
 
-        if (daysSteps.containsKey("TUESDAY")) {
-            daysSteps["TUESDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("tuesday")) {
+            daysSteps["tuesday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(2f, it.toFloat())
             }?.let {
@@ -114,8 +108,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             entries.add(BarEntry(2f, 0f))
         }
 
-        if (daysSteps.containsKey("WEDNESDAY")) {
-            daysSteps["WEDNESDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("wednesday")) {
+            daysSteps["wednesday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(3f, it.toFloat())
             }?.let {
@@ -126,8 +120,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("THURSDAY")) {
-            daysSteps["THURSDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("thursday")) {
+            daysSteps["thursday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(4f, it.toFloat())
             }?.let {
@@ -138,8 +132,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("FRIDAY")) {
-            daysSteps["FRIDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("friday")) {
+            daysSteps["friday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(5f, it.toFloat())
             }?.let {
@@ -150,8 +144,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("SATURDAY")) {
-            daysSteps["SATURDAY"]?.toDouble()?.let {
+        if (daysSteps.containsKey("saturday")) {
+            daysSteps["saturday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(6f, it.toFloat())
             }?.let {
@@ -162,8 +156,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
 
 
-        if (daysSteps.containsKey("SUNDAY")) {
-            daysSteps.get("SUNDAY")?.toDouble()?.let {
+        if (daysSteps.containsKey("sunday")) {
+            daysSteps.get("sunday")?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(7f, it.toFloat())
             }?.let {
@@ -182,7 +176,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             goalProgressTV.setTextColor(Color.parseColor("#3CB371"))
 
         }
-
 
         val barDataSet = BarDataSet(entries, "Cells")
 
@@ -251,7 +244,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         running = false
         sensorMgr!!.unregisterListener(this)
 
-        stepsModel.child("" + LocalDate.now().dayOfWeek).setValue(stepsMadeToday.toString())
+        stepsModel.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
+            .setValue(stepsMadeToday.toString())
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -272,7 +266,6 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                     editor.putBoolean("FIRST_LAUNCH", false)
                     editor.putInt("STEPS_SENSOR_VALUE", event.values[0].toInt())
                     editor.apply()
-                    stepsMadeToday = 0
                 }
             }
 
