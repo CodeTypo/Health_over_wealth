@@ -16,16 +16,18 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_heart.*
-import kotlinx.android.synthetic.main.activity_steps.*
 import kotlin.math.roundToInt
 
 
 class HeartActivity : AppCompatActivity(), SensorEventListener {
     var sensorMgr: SensorManager? = null
-    var heartRate : Sensor? = null;
+    var heartRate: Sensor? = null
     var heartTV: TextView? = null
     var thread: Thread? = null
+    var entryValue = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +35,14 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         setContentView(R.layout.activity_heart)
         heartTV = heartMonitorTV
         sensorMgr = this.getSystemService(SENSOR_SERVICE) as SensorManager
-        heartRate = sensorMgr!!.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+        heartRate = sensorMgr!!.getDefaultSensor(Sensor.TYPE_HEART_RATE)
 
 
         val data = LineData()
         data.setValueTextColor(Color.RED)
         heart_chart.data = data;
         val legend = heart_chart.legend
-        legend.form= Legend.LegendForm.LINE
+        legend.form = Legend.LegendForm.LINE
         legend.textColor = Color.BLACK
         legend.isEnabled = false
         val xl = heart_chart.xAxis
@@ -49,7 +51,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         xl.setAvoidFirstLastClipping(true)
         xl.isEnabled = false
 
-        val leftAxis =heart_chart.axisLeft
+        val leftAxis = heart_chart.axisLeft
         leftAxis.textColor = Color.BLACK
         leftAxis.axisMinimum = 25f
         leftAxis.axisMaximum = 150f
@@ -57,8 +59,8 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         leftAxis.isEnabled = false
 
         val d = Description()
-        d.text=""
-        heart_chart.description= d
+        d.text = ""
+        heart_chart.description = d
 
         val rightAxis = heart_chart.axisRight
         rightAxis.isEnabled = false
@@ -145,7 +147,6 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
             heartTV?.text = event.values[0].roundToInt().toString()
 
 
-
             val data: LineData = heart_chart.data
             if (data != null) {
                 var set = data.getDataSetByIndex(0)
@@ -154,20 +155,28 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
                     data.addDataSet(set)
                 }
 
-                val entryvalue = (event.values[0])
+                if (event.values[0].toInt() > 0) {
+                    entryValue = event.values[0].toInt()
+                }
+
+                val database = FirebaseDatabase.getInstance()
+
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+                val heartRateModel =
+                    database.reference.child(uid.toString()).child("HeartRateModel")
+
+                heartRateModel.setValue(entryValue.toString())
 
                 data.addEntry((Entry(set.entryCount.toFloat(),
-                    entryvalue.toFloat())),0)
-                heartMonitorTV.text = entryvalue.toInt().toString()
+                    entryValue.toFloat())), 0)
+                heartMonitorTV.text = entryValue.toString()
                 data.notifyDataChanged()
 
-                // let the graph know it's data has changed
                 heart_chart.notifyDataSetChanged()
 
-                // limit the number of visible entries
                 heart_chart.setVisibleXRangeMaximum(20F)
 
-                // move to the latest entry
                 heart_chart.moveViewToX(data.entryCount.toFloat())
             }
 
@@ -175,6 +184,6 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d("ACC","changed")
+        Log.d("ACC", "changed")
     }
 }

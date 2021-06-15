@@ -2,12 +2,17 @@ package com.codetypo.healthoverwealth.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.codetypo.healthoverwealth.R
-import kotlinx.android.synthetic.main.fragment_bmi.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_heartrate.*
 
 class HeartrateFragment : Fragment() {
@@ -15,16 +20,37 @@ class HeartrateFragment : Fragment() {
     var hrInterface: HeartrateFragmentInterface? = null
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_heartrate, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val database = FirebaseDatabase.getInstance()
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        val heartRateModel = database.reference.child(uid.toString())
+
+        heartRateModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.exists()) {
+                        val heartRateValue = snapshot.child("HeartRateModel")
+                        lastHeartRateTV.text =
+                            heartRateValue.getValue(String::class.java).toString()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        Toast.makeText(context, lastHeartRateTV.text.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onAttach(context: Context) {
@@ -39,7 +65,7 @@ class HeartrateFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        heartrateBody.setOnClickListener{
+        heartrateBody.setOnClickListener {
             hrInterface?.onHrBodyClicked()
         }
     }
