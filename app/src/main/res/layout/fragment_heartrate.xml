@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvStepsMadeToday"
+            android:id="@+id/lastHeartRateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="80"
@@ -59,7 +59,7 @@
             android:layout_marginBottom="6dp"
             android:text="BPM"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvStepsMadeToday" />
+            app:layout_constraintStart_toEndOf="@+id/lastHeartRateTV" />
 
         <Button
             android:id="@+id/btnCalculate"
