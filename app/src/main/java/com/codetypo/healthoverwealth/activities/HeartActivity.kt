@@ -86,52 +86,6 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         return set
     }
 
-
-//    private fun addEntry() {
-//        val data: LineData = heart_chart.getData()
-//        if (data != null) {
-//            var set = data.getDataSetByIndex(0)
-//            if (set == null) {
-//                set = createSet()
-//                data.addDataSet(set)
-//            }
-//
-//            val entryvalue = ((Math.random() * 90) + 30f)
-//
-//            data.addEntry((Entry(set.entryCount.toFloat(),
-//                entryvalue.toFloat())),0)
-//            heartMonitorTV.text = entryvalue.toInt().toString()
-//            data.notifyDataChanged()
-//
-//            // let the graph know it's data has changed
-//            heart_chart.notifyDataSetChanged()
-//
-//            // limit the number of visible entries
-//            heart_chart.setVisibleXRangeMaximum(20F)
-//
-//            // move to the latest entry
-//            heart_chart.moveViewToX(data.entryCount.toFloat())
-//        }
-//    }
-
-//    private fun feedMultiple() {
-//        thread?.interrupt()
-//        val runnable = Runnable { addEntry() }
-//        thread = Thread {
-//            for (i in 0..999) {
-//
-//                // Don't generate garbage runnables inside the loop.
-//                runOnUiThread(runnable)
-//                try {
-//                    Thread.sleep(30)
-//                } catch (e: InterruptedException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        }
-//        thread!!.start()
-//    }
-
     override fun onResume() {
         super.onResume()
         sensorMgr!!.registerListener(this, heartRate, 100000)
