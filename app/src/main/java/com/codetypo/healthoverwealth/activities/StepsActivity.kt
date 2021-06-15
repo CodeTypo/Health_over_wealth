@@ -16,7 +16,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_steps.*
 import java.time.LocalDate
 
@@ -43,10 +46,36 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         stepsTV = stepCounterTV
         sensorMgr = getSystemService(SENSOR_SERVICE) as SensorManager
 
-        goalProgressTV.text = "Work in progress, keep it up!"
-        goalProgressTV.setTextColor(Color.parseColor("#FF7F50"))
-
         preferences = this.getSharedPreferences("PREFERENCES", MODE_PRIVATE)
+
+        val database = FirebaseDatabase.getInstance()
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+        val stepsModel = database.reference.child(uid.toString()).child("StepsModel")
+
+        stepsModel.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.exists()) {
+                        val stepsTargetValue = snapshot.child("StepsTarget")
+                        weeklyGoalTV.text = stepsTargetValue.getValue(String::class.java).toString()
+                    }
+                } catch (e: Exception) {
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        if (stepCounterTV?.text.toString().toInt() >= Integer.parseInt(weeklyGoalTV.text.toString()
+                .replace("\\s".toRegex(), ""))
+        ) {
+            goalProgressTV.text = "Goal accomplished,\n good job!"
+            goalProgressTV.setTextColor(Color.parseColor("#3CB371"))
+
+        }
 
         if (uid != null) {
             stepsModel.get().addOnSuccessListener {
