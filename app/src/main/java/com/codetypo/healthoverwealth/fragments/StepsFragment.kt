@@ -49,7 +49,10 @@ class StepsFragment : Fragment() {
                 try {
                     if (snapshot.exists()) {
                         val stepsValue = snapshot.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
-                        tvStepsMadeToday.text = stepsValue.getValue(String::class.java).toString()
+                        if(!stepsValue.equals("null"))
+                            tvStepsMadeToday.text = stepsValue.getValue(String::class.java).toString()
+                        else
+                            tvStepsMadeToday.text = "0"
                     }
                 } catch (e: Exception) {
                 }

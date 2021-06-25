@@ -53,9 +53,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                 try {
                     if (snapshot.exists()) {
                         val stepsTargetValue =
-                            snapshot.child("steps_target").getValue(String::class.java).toString()
-                        if (stepsTargetValue != "null")
-                            weeklyGoalTV.text = stepsTargetValue
+                            snapshot.child("steps_target").getValue(String::class.java).toString().toInt()
+                            weeklyGoalTV.text = (7 * stepsTargetValue).toString()
                     }
                 } catch (e: Exception) {
                 }
@@ -214,7 +213,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         l.setCustom(listOf(l1, l2, l3, l4, l5, l6, l7));
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        l.xEntrySpace = 24f // space between the legend entries on the x-axis
+        l.xEntrySpace = 22f // space between the legend entries on the x-axis
 
         val d = Description()
         d.text = ""
