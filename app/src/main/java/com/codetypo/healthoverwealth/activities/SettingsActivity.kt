@@ -55,14 +55,19 @@ class SettingsActivity : AppCompatActivity(),
 
             pbPasswordStrength.progressDrawable.setColorFilter(str.color,
                 android.graphics.PorterDuff.Mode.SRC_IN)
-            if (str.getText(this) == "WEAK") {
-                pbPasswordStrength.progress = 25
-            } else if (str.getText(this) == "MEDIUM") {
-                pbPasswordStrength.progress = 50
-            } else if (str.getText(this) == "STRONG") {
-                pbPasswordStrength.progress = 75
-            } else {
-                pbPasswordStrength.progress = 100
+            when {
+                str.getText(this) == "WEAK" -> {
+                    pbPasswordStrength.progress = 25
+                }
+                str.getText(this) == "MEDIUM" -> {
+                    pbPasswordStrength.progress = 50
+                }
+                str.getText(this) == "STRONG" -> {
+                    pbPasswordStrength.progress = 75
+                }
+                else -> {
+                    pbPasswordStrength.progress = 100
+                }
             }
         }
 
