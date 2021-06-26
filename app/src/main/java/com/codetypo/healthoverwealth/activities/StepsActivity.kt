@@ -269,11 +269,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             }
 
             stepsMadeToday =
-                if (preferences!!.getInt("STEPS_SENSOR_VALUE", 0) >= event.values[0].toInt()) {
-                    event.values[0].toInt()
-                } else {
                     event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
-                }
         }
     }
 
