@@ -39,17 +39,44 @@ class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-//        addData()
+        for (i in 0..6) {
+            val waterDrunkModel =
+                database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
+            waterDrunkModel.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val weekDay =
+                        snapshot.child(LocalDate.now().dayOfWeek.minus(i.toLong()).toString()
+                            .toLowerCase())
+                    if (weekDay.exists()) {
+                        val cup =
+                            weekDay.child("drunk_cups").getValue(String::class.java).toString()
+                        val cupsTarget =
+                            weekDay.child("cups_target").getValue(String::class.java).toString()
+                        val drunkWater =
+                            weekDay.child("drunk_water").getValue(String::class.java).toString()
+                        val waterTarget =
+                            weekDay.child("water_target").getValue(String::class.java).toString()
 
-        for (i in 0..6){
-            val drunkCups = ((Math.random()*15 + 4).toInt()).toString()
-            val cupsTarget = ((Math.random()*10 + 6).toInt()).toString()
-            data.add(DailyWaterView(LocalDate.now().dayOfWeek.minus(i.toLong()).toString(),drunkCups,(drunkCups.toInt()*250).toString(), cupsTarget,(cupsTarget.toInt()*250).toString()))
+                        if (cupsTarget != "null")
+                            data.add(DailyWaterView(today.minus(i.toLong()).toString()
+                                .toLowerCase(),
+                                cup,
+                                drunkWater,
+                                cupsTarget,
+                                waterTarget))
+                        else
+                            data.add(DailyWaterView(today.minus(i.toLong()).toString()
+                                .toLowerCase(), cup, drunkWater, "8", "2000"))
+                    }
+                    val adapter = WaterAdapter(data)
+                    recyclerView.adapter = adapter
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
         }
-
-        val adapter = WaterAdapter(data)
-
-        recyclerView.adapter = adapter
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -63,35 +90,5 @@ class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
         }
         startActivity(intent)
         return true
-    }
-
-    fun addData(){
-        for (i in 0..6) {
-            val waterDrunkModel = FirebaseDatabase.getInstance().getReference().child("0HeOKE0n9Fa3wWzfTJCgteCCDet1").child("WATER_DRUNK_MODEL")
-            waterDrunkModel.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    try {
-                        if (snapshot.exists()) {
-                            val cup =
-                                snapshot.child("cup").getValue(String::class.java).toString()
-                            val drunkWater =
-                                snapshot.child("water_drunk").getValue(String::class.java).toString()
-                            val cupsTarget = snapshot.child("cups_target").getValue(String::class.java).toString()
-
-                            if(cupsTarget != "null")
-                                data.add(DailyWaterView(today.minus(0.toLong()).toString().toLowerCase(),cup,drunkWater,cupsTarget,(cupsTarget.toInt()*250).toString()))
-                            else if(snapshot.child("cups_target").getValue(String::class.java).toString() != "null")
-                                data.add(DailyWaterView(today.minus(0.toLong()).toString().toLowerCase(),cup,drunkWater,snapshot.child("cups_target").getValue(String::class.java).toString(),(cupsTarget.toInt()*250).toString()))
-                            else
-                                data.add(DailyWaterView(today.minus(0.toLong()).toString().toLowerCase(),cup,drunkWater,"8","2000"))
-                        }
-                    } catch (e: Exception) {
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-
-        }
     }
 }

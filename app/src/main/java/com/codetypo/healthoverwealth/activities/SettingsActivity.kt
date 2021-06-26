@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.time.LocalDate
 
 class SettingsActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
@@ -102,20 +103,27 @@ class SettingsActivity : AppCompatActivity(),
             }
         }
 
-        btnSaveCupsTarget.setOnClickListener{
-            if(etCupsTarget.text.toString().toInt() in 4..20){
-                val cupsTargetModel = database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
+        btnSaveCupsTarget.setOnClickListener {
+            if (etCupsTarget.text.toString().toInt() in 4..20) {
+                val cupsTargetModel =
+                    database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
 
-                cupsTargetModel.child("cups_target").setValue(etCupsTarget.text.toString())
+                cupsTargetModel.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
+                    .child("cups_target").setValue(etCupsTarget.text.toString())
+                cupsTargetModel.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
+                    .child("water_target")
+                    .setValue((etCupsTarget.text.toString().toInt() * 250).toString())
 
-                if(etCupsTarget.text.toString().toInt() < 8)
-                    tvCupsTargetMessage.text = "Cups target changed, but the recommended number of cups is 8."
+                if (etCupsTarget.text.toString().toInt() < 8)
+                    tvCupsTargetMessage.text =
+                        "Cups target changed, but the recommended number of cups is 8."
                 else
                     tvCupsTargetMessage.text = "Cups target changed!"
 
                 tvCupsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
             } else {
-                tvCupsTargetMessage.text = "Invalid cups target value! Enter a value between 4 and 20."
+                tvCupsTargetMessage.text =
+                    "Invalid cups target value! Enter a value between 4 and 20."
                 tvCupsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
             }
         }
