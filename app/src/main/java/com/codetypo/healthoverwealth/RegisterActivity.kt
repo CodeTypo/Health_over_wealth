@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.register_form.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -13,8 +15,32 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        auth = FirebaseAuth.getInstance();
-        auth.signOut();
+        auth = FirebaseAuth.getInstance()
+        auth.signOut()
+
+        registerPassword.addTextChangedListener {
+
+            val str = PasswordStrength.calculateStrength(registerPassword.text.toString())
+            tvPasswordStrengthRegister.text = str.getText(this)
+            tvPasswordStrengthRegister.setTextColor(str.color)
+
+            pbPasswordStrengthRegister.progressDrawable.setColorFilter(str.color,
+                android.graphics.PorterDuff.Mode.SRC_IN)
+            when {
+                str.getText(this) == "WEAK" -> {
+                    pbPasswordStrengthRegister.progress = 25
+                }
+                str.getText(this) == "MEDIUM" -> {
+                    pbPasswordStrengthRegister.progress = 50
+                }
+                str.getText(this) == "STRONG" -> {
+                    pbPasswordStrengthRegister.progress = 75
+                }
+                else -> {
+                    pbPasswordStrengthRegister.progress = 100
+                }
+            }
+        }
 
         btnSignUp.setOnClickListener {
             Log.d("Action", "clicked");

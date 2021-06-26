@@ -55,14 +55,19 @@ class SettingsActivity : AppCompatActivity(),
 
             pbPasswordStrength.progressDrawable.setColorFilter(str.color,
                 android.graphics.PorterDuff.Mode.SRC_IN)
-            if (str.getText(this) == "WEAK") {
-                pbPasswordStrength.progress = 25
-            } else if (str.getText(this) == "MEDIUM") {
-                pbPasswordStrength.progress = 50
-            } else if (str.getText(this) == "STRONG") {
-                pbPasswordStrength.progress = 75
-            } else {
-                pbPasswordStrength.progress = 100
+            when {
+                str.getText(this) == "WEAK" -> {
+                    pbPasswordStrength.progress = 25
+                }
+                str.getText(this) == "MEDIUM" -> {
+                    pbPasswordStrength.progress = 50
+                }
+                str.getText(this) == "STRONG" -> {
+                    pbPasswordStrength.progress = 75
+                }
+                else -> {
+                    pbPasswordStrength.progress = 100
+                }
             }
         }
 
@@ -82,22 +87,36 @@ class SettingsActivity : AppCompatActivity(),
             }
         }
 
-        btnSaveStepsTarget.setOnClickListener {
-            if (etStepsTarget.text.toString().toInt() in 10000..100000) {
-                val database = FirebaseDatabase.getInstance()
-
-                val uid = FirebaseAuth.getInstance().currentUser?.uid
-
+        btnSaveDailyStepsTarget.setOnClickListener {
+            if (etDailyStepsTarget.text.toString().toInt() in 5000..15000) {
                 val stepsTargetModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
 
-                stepsTargetModel.child("steps_target").setValue(etStepsTarget.text.toString())
+                stepsTargetModel.child("steps_target").setValue(etDailyStepsTarget.text.toString())
 
-                tvStepsTargetMessage.text = "Steps target changed!"
-                tvStepsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
+                tvDailyStepsTargetMessage.text = "Steps target changed!"
+                tvDailyStepsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
             } else {
-                tvStepsTargetMessage.text =
-                    "Invalid steps target value! Enter a value between 10,000 and 100,000."
-                tvStepsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
+                tvDailyStepsTargetMessage.text =
+                    "Invalid steps target value! Enter a value between 5,000 and 15,000."
+                tvDailyStepsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
+            }
+        }
+
+        btnSaveCupsTarget.setOnClickListener{
+            if(etCupsTarget.text.toString().toInt() in 4..20){
+                val cupsTargetModel = database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
+
+                cupsTargetModel.child("cups_target").setValue(etCupsTarget.text.toString())
+
+                if(etCupsTarget.text.toString().toInt() < 8)
+                    tvCupsTargetMessage.text = "Cups target changed, but the recommended number of cups is 8."
+                else
+                    tvCupsTargetMessage.text = "Cups target changed!"
+
+                tvCupsTargetMessage.setTextColor(Color.parseColor("#7CC679"))
+            } else {
+                tvCupsTargetMessage.text = "Invalid cups target value! Enter a value between 4 and 20."
+                tvCupsTargetMessage.setTextColor(Color.parseColor("#8B0000"))
             }
         }
     }

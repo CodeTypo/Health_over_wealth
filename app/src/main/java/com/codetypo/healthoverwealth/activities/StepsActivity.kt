@@ -53,9 +53,8 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                 try {
                     if (snapshot.exists()) {
                         val stepsTargetValue =
-                            snapshot.child("steps_target").getValue(String::class.java).toString()
-                        if (!stepsTargetValue.equals("null"))
-                            weeklyGoalTV.text = stepsTargetValue
+                            snapshot.child("steps_target").getValue(String::class.java).toString().toInt()
+                            weeklyGoalTV.text = (7 * stepsTargetValue).toString()
                     }
                 } catch (e: Exception) {
                 }
@@ -76,7 +75,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             stepsModel.get().addOnSuccessListener {
                 @Suppress("UNCHECKED_CAST")
                 daysSteps = it.value as HashMap<String, String>
-                Log.i("firebase", "Got value ${daysSteps}")
+                Log.i("firebase", "Got value $daysSteps")
                 setBarChart()
             }.addOnFailureListener {
                 Log.e("firebase", "Error getting data", it)
@@ -157,7 +156,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
 
 
         if (daysSteps.containsKey("sunday")) {
-            daysSteps.get("sunday")?.toDouble()?.let {
+            daysSteps["sunday"]?.toDouble()?.let {
                 weeklySteps += it.toFloat()
                 BarEntry(7f, it.toFloat())
             }?.let {
@@ -210,21 +209,21 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         l6.label = "sat"
         val l7 = LegendEntry()
         l7.label = "sun"
-        val l: Legend = barChart.getLegend()
+        val l: Legend = barChart.legend
         l.setCustom(listOf(l1, l2, l3, l4, l5, l6, l7));
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        l.xEntrySpace = 22f; // space between the legend entries on the x-axis
+        l.xEntrySpace = 22f // space between the legend entries on the x-axis
 
         val d = Description()
         d.text = ""
         barChart.description = d
-        barChart.setDrawGridBackground(false);
-        barChart.getDescription().setEnabled(false);
-        barChart.setDrawBorders(false);
+        barChart.setDrawGridBackground(false)
+        barChart.description.isEnabled = false
+        barChart.setDrawBorders(false)
 
-        barChart.getAxisLeft().setEnabled(false);
-        barChart.getAxisRight().setEnabled(false)
+        barChart.axisLeft.isEnabled = false
+        barChart.axisRight.isEnabled = false
     }
 
     override fun onResume() {
@@ -270,7 +269,7 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             }
 
             stepsMadeToday =
-                event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
+                    event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
         }
     }
 
