@@ -45,8 +45,8 @@ class WaterFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val waterDrunkValue = snapshot.child("water_drunk")
-                        val cupValue = snapshot.child("cup")
+                        val waterDrunkValue = snapshot.child("drunk_water")
+                        val cupValue = snapshot.child("drunk_cups")
                         milliliters.text =
                             waterDrunkValue.getValue(String::class.java).toString()
                         cupCounter.text = cupValue.getValue(String::class.java).toString()
@@ -68,9 +68,9 @@ class WaterFragment : Fragment() {
             cupCounter.text = (cups).toString()
             milliliters.text = (cups * 250).toString()
 
-            waterDrunkModel.child("water_drunk")
+            waterDrunkModel.child("drunk_water")
                 .setValue(milliliters.text.toString())
-            waterDrunkModel.child("cup")
+            waterDrunkModel.child("drunk_cups")
                 .setValue(cupCounter.text.toString())
         }
 
@@ -81,9 +81,9 @@ class WaterFragment : Fragment() {
             cupCounter.text = (cups).toString()
             milliliters.text = (cups * 250).toString()
 
-            waterDrunkModel.child("water_drunk")
+            waterDrunkModel.child("drunk_water")
                 .setValue(milliliters.text.toString())
-            waterDrunkModel.child("cup")
+            waterDrunkModel.child("drunk_cups")
                 .setValue(cupCounter.text.toString())
         }
 
