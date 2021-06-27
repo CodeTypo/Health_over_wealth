@@ -36,7 +36,7 @@
         <activity android:name=".activities.WaterActivity" />
         <activity android:name=".activities.HeartActivity" />
         <activity android:name=".activities.StepsActivity" />
-        <activity android:name=".activities.StatsActivity" />
+        <activity android:name=".activities.CupsActivity" />
     </application>
 
 </manifest>
