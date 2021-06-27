@@ -8,9 +8,9 @@
         />
 
     <item
-        android:id="@+id/navStats"
-        android:title="Stats"
-        android:icon="@drawable/stats_icon"
+        android:id="@+id/navCups"
+        android:title="Cups"
+        android:icon="@drawable/cup_icon"
         />
 
     <item

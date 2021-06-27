@@ -78,7 +78,7 @@ class FragmentMainActivity : AppCompatActivity(), WaterFragment.WaterFragmentInt
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var intent: Intent = when (item.itemId) {
-            R.id.navStats -> Intent(this, StatsActivity::class.java)
+            R.id.navCups -> Intent(this, CupsActivity::class.java)
 //            R.id.navCup -> Intent(this, CupActivity::class.java)
             R.id.navSettings -> Intent(this, SettingsActivity::class.java)
             else -> { // Note the block

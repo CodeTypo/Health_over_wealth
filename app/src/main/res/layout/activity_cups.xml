@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.StatsActivity">
+    tools:context=".activities.CupsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historyRecView"
+        android:id="@+id/drunkWaterRecView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"

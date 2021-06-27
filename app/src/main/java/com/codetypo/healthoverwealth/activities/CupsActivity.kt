@@ -16,10 +16,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_stats.*
+import kotlinx.android.synthetic.main.activity_cups.*
 import java.time.LocalDate
 
-class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class CupsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navBar: BottomNavigationView
     val data = ArrayList<DailyWaterView>()
@@ -29,13 +29,13 @@ class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_stats)
+        setContentView(R.layout.activity_cups)
         navBar = bottomNavBar
-        navBar.selectedItemId = R.id.navStats
+        navBar.selectedItemId = R.id.navCups
 
         navBar.setOnNavigationItemSelectedListener(this)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.historyRecView)
+        val recyclerView = findViewById<RecyclerView>(R.id.drunkWaterRecView)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -45,7 +45,7 @@ class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
             waterDrunkModel.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val weekDay =
-                        snapshot.child(LocalDate.now().dayOfWeek.minus(i.toLong()).toString()
+                        snapshot.child(today.minus(i.toLong()).toString()
                             .toLowerCase())
                     if (weekDay.exists()) {
                         val cup =
@@ -82,7 +82,6 @@ class StatsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
-//            R.id.navCup -> Intent(this, CupActivity::class.java)
             R.id.navSettings -> Intent(this, SettingsActivity::class.java)
             else -> { // Note the block
                 return false

@@ -132,7 +132,7 @@ class SettingsActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
-            R.id.navStats -> Intent(this, StatsActivity::class.java)
+            R.id.navCups -> Intent(this, CupsActivity::class.java)
             else -> {
                 return false
             }
