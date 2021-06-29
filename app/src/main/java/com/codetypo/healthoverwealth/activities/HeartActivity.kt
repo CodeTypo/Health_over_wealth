@@ -10,9 +10,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.codetypo.healthoverwealth.R
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -22,6 +20,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_heart.*
+import kotlinx.android.synthetic.main.activity_steps.*
 import kotlin.math.roundToInt
 
 
@@ -29,6 +28,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     var sensorMgr: SensorManager? = null
     var heartRate: Sensor? = null
     var heartTV: TextView? = null
+    var hintTV: TextView? = null
     var thread: Thread? = null
     var entryValue = 80
 
@@ -69,19 +69,33 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         val legend = heart_chart.legend
         legend.form = Legend.LegendForm.LINE
         legend.textColor = Color.BLACK
-        legend.isEnabled = false
+        legend.isEnabled = true
         val xl = heart_chart.xAxis
         xl.textColor = Color.BLACK
         xl.setDrawGridLines(false)
         xl.setAvoidFirstLastClipping(true)
-        xl.isEnabled = false
+        xl.axisMinimum = 0f
+        val lE = LegendEntry()
+        lE.label = "time [s]"
+        val l: Legend = heart_chart.legend
+        l.setCustom(listOf(lE));
+        l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        xl.position = XAxis.XAxisPosition.BOTTOM;
+        xl.isEnabled = true
 
+        val ll = LimitLine(110f, "High HR")
+        ll.lineColor = Color.RED;
+        ll.lineWidth = 1f;
+        ll.textColor = Color.BLACK;
+        ll.textSize = 12f;
         val leftAxis = heart_chart.axisLeft
         leftAxis.textColor = Color.BLACK
         leftAxis.axisMinimum = 25f
         leftAxis.axisMaximum = 150f
+        leftAxis.addLimitLine(ll)
         leftAxis.setDrawGridLines(false)
-        leftAxis.isEnabled = false
+        leftAxis.isEnabled = true
 
         val d = Description()
         d.text = ""
