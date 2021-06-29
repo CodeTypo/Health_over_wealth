@@ -32,15 +32,23 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     var thread: Thread? = null
     var entryValue = 80
 
+    var stage2 = false
+    var stage3 = false
+    var oldVal = 0f
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_heart)
         heartTV = heartMonitorTV
+        hintTV = hrHintTv
         sensorMgr = this.getSystemService(SENSOR_SERVICE) as SensorManager
         heartRate = sensorMgr!!.getDefaultSensor(Sensor.TYPE_HEART_RATE)
 
         val database = FirebaseDatabase.getInstance()
+
+        stage2 = false
+        stage3 = false
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -125,16 +133,32 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         sensorMgr!!.registerListener(this, heartRate, 100000)
+        stage2 = false
+        stage3 = false
     }
 
     override fun onPause() {
         super.onPause()
         sensorMgr!!.unregisterListener(this)
+        stage2 = false
+        stage3 = false
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             heartTV?.text = event.values[0].roundToInt().toString()
+
+
+            if (stage2){
+                hintTV?.text = "Stage 2"
+            }
+
+            if (stage3){
+                hintTV?.text = "All good! Measure Your heart rate for about 10 seconds to let it stabilize. Afterwards, You can remove Your finger and the heart rate will be saved!"
+            }
+
+
+
 
 
             val data: LineData = heart_chart.data
@@ -162,12 +186,20 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
                     entryValue.toFloat())), 0)
                 heartMonitorTV.text = entryValue.toString()
                 data.notifyDataChanged()
-
                 heart_chart.notifyDataSetChanged()
 
                 heart_chart.setVisibleXRangeMaximum(20F)
 
+                if(oldVal != 0f && oldVal != entryValue.toFloat())
+                    if(stage2 == false)
+                        stage2 = true
+
+                if(oldVal != 0f && oldVal.toInt() == entryValue.toInt())
+                    stage3 = true
+                    stage2 = false
+
                 heart_chart.moveViewToX(data.entryCount.toFloat())
+                oldVal = entryValue.toFloat()
             }
 
         }
