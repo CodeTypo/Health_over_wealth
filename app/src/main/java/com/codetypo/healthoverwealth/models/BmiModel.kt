@@ -1,13 +1,7 @@
 package com.codetypo.healthoverwealth.models
 
-class BmiModel {
-    var bmi: String? = ""
-    var result: String? = ""
-    var color: String? = ""
-
-    constructor(bmi: String?, result: String?, color: String?) {
-        this.bmi = bmi
-        this.result = result
-        this.color = color
-    }
+/**
+ * This class represents the BmiModel which is saved in Firebase.
+ */
+class BmiModel(var bmi: String?, var result: String?, var color: String?) {
 }

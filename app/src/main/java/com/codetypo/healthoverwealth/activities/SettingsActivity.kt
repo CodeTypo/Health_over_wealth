@@ -16,21 +16,25 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.time.LocalDate
 
+/**
+ * This class represents activity for settings.
+ */
 class SettingsActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navBar: BottomNavigationView
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    /**
+     * This function is called when SettingsActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         navBar = bottomNavBar
         navBar.selectedItemId = R.id.navSettings
         navBar.setOnNavigationItemSelectedListener(this)
-
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
 
         val heightModel = database.reference.child(uid.toString()).child("HEIGHT_MODEL")
 
@@ -129,6 +133,9 @@ class SettingsActivity : AppCompatActivity(),
         }
     }
 
+    /**
+     * This function is used to navigate between activities.
+     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)

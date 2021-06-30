@@ -17,10 +17,18 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_weight.*
 
+/**
+ * This class represents fragment for weight.
+ */
 class WeightFragment : Fragment() {
 
     var weightInterface: WeightFragmentInterface? = null
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    /**
+     * This function is called to create the WeightFragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,10 +51,6 @@ class WeightFragment : Fragment() {
         weightBody.setOnClickListener {
             weightInterface?.onWeightBodyClicked()
         }
-
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
 
         val weightModel = database.reference.child(uid.toString()).child("WEIGHT_MODEL")
 
@@ -87,9 +91,10 @@ class WeightFragment : Fragment() {
         })
     }
 
-
+    /**
+     * This is WeightFragment interface.
+     */
     interface WeightFragmentInterface {
         fun onWeightBodyClicked()
     }
-
 }

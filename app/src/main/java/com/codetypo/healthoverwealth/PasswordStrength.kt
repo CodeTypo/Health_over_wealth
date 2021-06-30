@@ -2,6 +2,9 @@ package com.codetypo.healthoverwealth
 
 import android.graphics.Color
 
+/**
+ * This class represents a system that checks the strength of a given password.
+ */
 enum class PasswordStrength(private var resId: Int, color: Int) {
 
     WEAK(R.string.password_strength_weak, Color.RED),
@@ -16,12 +19,21 @@ enum class PasswordStrength(private var resId: Int, color: Int) {
         this.color = color
     }
 
+    /**
+     * This function gets the text based on the id of the text field.
+     */
     fun getText(ctx: android.content.Context): CharSequence {
         return ctx.getText(resId)
     }
 
+    /**
+     * This is companion object.
+     */
     companion object {
 
+        /**
+         * This function calculates the strength of the password.
+         */
         fun calculateStrength(password: String): PasswordStrength {
             var currentScore = 0
 
