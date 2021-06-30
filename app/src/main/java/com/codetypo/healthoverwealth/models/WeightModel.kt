@@ -1,9 +1,7 @@
 package com.codetypo.healthoverwealth.models
 
-class WeightModel {
-    var weight: String? = ""
-
-    constructor(weight: String) {
-        this.weight = weight
-    }
+/**
+ * This class represents the WeightModel which is saved in Firebase.
+ */
+class WeightModel(var weight: String?) {
 }

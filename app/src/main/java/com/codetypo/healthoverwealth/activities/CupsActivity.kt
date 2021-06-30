@@ -19,6 +19,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_cups.*
 import java.time.LocalDate
 
+/**
+ * This class represents the activity for the user's drinking cups of water.
+ */
 class CupsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navBar: BottomNavigationView
@@ -27,6 +30,9 @@ class CupsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     val database = FirebaseDatabase.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    /**
+     * This function is called when CupsActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cups)
@@ -79,11 +85,14 @@ class CupsActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 
+    /**
+     * This function is used to navigate between activities.
+     */
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var intent: Intent = when (item.itemId) {
             R.id.navHome -> Intent(this, FragmentMainActivity::class.java)
             R.id.navSettings -> Intent(this, SettingsActivity::class.java)
-            else -> { // Note the block
+            else -> {
                 return false
             }
         }

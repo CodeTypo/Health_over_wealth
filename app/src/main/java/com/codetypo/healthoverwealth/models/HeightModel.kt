@@ -1,9 +1,7 @@
 package com.codetypo.healthoverwealth.models
 
-class HeightModel {
-    var height: String? = ""
-
-    constructor(height: String?) {
-        this.height = height
-    }
+/**
+ * This class represents the HeightModel which is saved in Firebase.
+ */
+class HeightModel(var height: String?) {
 }

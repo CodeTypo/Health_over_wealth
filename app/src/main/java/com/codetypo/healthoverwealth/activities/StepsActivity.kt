@@ -15,8 +15,6 @@ import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,6 +23,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_steps.*
 import java.time.LocalDate
 
+/**
+ * This class represents activity for steps.
+ */
 class StepsActivity : AppCompatActivity(), SensorEventListener {
 
     var running = false
@@ -41,6 +42,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
     var preferences: SharedPreferences? = null
     var stepsMadeToday: Int = 0
 
+    /**
+     * This function is called when StepsActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_steps)
@@ -55,8 +59,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
                 try {
                     if (snapshot.exists()) {
                         val stepsTargetValue =
-                            snapshot.child("steps_target").getValue(String::class.java).toString().toInt()
-                            weeklyGoalTV.text = (7 * stepsTargetValue).toString()
+                            snapshot.child("steps_target").getValue(String::class.java).toString()
+                                .toInt()
+                        weeklyGoalTV.text = (7 * stepsTargetValue).toString()
                     }
                 } catch (e: Exception) {
                 }
@@ -85,6 +90,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    /**
+     * TThis function sets the values in the bar chart.
+     */
     private fun setBarChart() {
 
         val entries = ArrayList<BarEntry>()
@@ -229,6 +237,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         barChart.axisRight.isEnabled = false
     }
 
+    /**
+     * This function is called when StepsActivity is resumed.
+     */
     override fun onResume() {
         super.onResume()
         running = true
@@ -241,6 +252,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    /**
+     * This function is called when StepsActivity is paused.
+     */
     override fun onPause() {
         super.onPause()
         running = false
@@ -250,6 +264,9 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             .setValue(stepsMadeToday.toString())
     }
 
+    /**
+     * This function is called when the sensor changes its value.
+     */
     override fun onSensorChanged(event: SensorEvent) {
         if (running) {
 
@@ -272,11 +289,13 @@ class StepsActivity : AppCompatActivity(), SensorEventListener {
             }
 
             stepsMadeToday =
-                    event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
+                event.values[0].toInt() - preferences!!.getInt("STEPS_SENSOR_VALUE", 0)
         }
     }
 
+    /**
+     * This function is called when the accuracy of the sensors has changed.
+     */
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d("ACC", "changed")
     }
 }

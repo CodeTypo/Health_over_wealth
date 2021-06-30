@@ -12,12 +12,18 @@ import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.login_form.*
 
+/**
+ * This class represents activity for login.
+ */
 class LoginActivity : AppCompatActivity() {
 
     val ACTIVITY_RECOGNITION_RQ = 101
     val BODY_SENSORS_RQ = 102
     private lateinit var auth: FirebaseAuth
 
+    /**
+     * This function is called when LoginActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -51,7 +57,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * This function supports user login based on the entered email address and password.
+     */
     fun signInUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->

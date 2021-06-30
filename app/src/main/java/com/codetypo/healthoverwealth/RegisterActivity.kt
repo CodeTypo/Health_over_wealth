@@ -6,11 +6,18 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.register_form.*
 
+/**
+ * This class represents activity for register.
+ */
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth;
+
+    private lateinit var auth: FirebaseAuth
+
+    /**
+     * This function is called when RegisterActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -61,7 +68,9 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-
+    /**
+     * This function creates the user.
+     */
     private fun createUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -76,14 +85,17 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * This function redirects the user to the main activity of the application.
+     */
     override fun onStart() {
         super.onStart()
         auth.signOut();
         val user = auth.currentUser;
 
         if (user != null) {
-            Log.d("Action", "User already logged in");
-            startActivity(Intent(this, FragmentMainActivity::class.java));
+            Log.d("Action", "User already logged in")
+            startActivity(Intent(this, FragmentMainActivity::class.java))
         }
 
     }

@@ -15,22 +15,23 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_steps.*
 import java.time.LocalDate
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [StepsFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * This class represents fragment for steps.
  */
 class StepsFragment : Fragment() {
     var stepsInterface: StepsFragmentInterface? = null
 
     private var param1: String? = null
     private var param2: String? = null
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    /**
+     * This function is called when StepsFragment is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,19 +39,17 @@ class StepsFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-
         val stepsModel = database.reference.child(uid.toString()).child("STEPS_MODEL")
 
         stepsModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 try {
                     if (snapshot.exists()) {
-                        val stepsValue = snapshot.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
-                        if(!stepsValue.equals("null"))
-                            tvStepsMadeToday.text = stepsValue.getValue(String::class.java).toString()
+                        val stepsValue =
+                            snapshot.child(LocalDate.now().dayOfWeek.toString().toLowerCase())
+                        if (!stepsValue.equals("null"))
+                            tvStepsMadeToday.text =
+                                stepsValue.getValue(String::class.java).toString()
                         else
                             tvStepsMadeToday.text = "0"
                     }
@@ -63,11 +62,13 @@ class StepsFragment : Fragment() {
         })
     }
 
+    /**
+     * This function is called to create the StepsFragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_steps, container, false)
     }
 
@@ -88,27 +89,10 @@ class StepsFragment : Fragment() {
         }
     }
 
+    /**
+     * This is StepsFragment interface.
+     */
     interface StepsFragmentInterface {
         fun onStepsBodyClicked()
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StepsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StepsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

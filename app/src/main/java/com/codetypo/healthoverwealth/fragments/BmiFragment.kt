@@ -17,11 +17,18 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_bmi.*
 import kotlin.math.pow
 
-
+/**
+ * This class represents fragment for bmi.
+ */
 class BmiFragment : Fragment() {
 
     var bmiInterface: BmiFragmentInterface? = null
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    /**
+     * This function is called to create the BmiFragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,12 +36,11 @@ class BmiFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_bmi, container, false)
     }
 
+    /**
+     * This function is called, when BmiFragment's view is already created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val database = FirebaseDatabase.getInstance()
-
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
 
         val bmiModel = database.reference.child(uid.toString()).child("BMI_MODEL")
         val heightModel = database.reference.child(uid.toString()).child("HEIGHT_MODEL")
@@ -174,6 +180,9 @@ class BmiFragment : Fragment() {
         }
     }
 
+    /**
+     * This is BmiFragment interface.
+     */
     interface BmiFragmentInterface {
         fun onBmiBodyClicked()
     }

@@ -15,6 +15,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_water.*
 import java.time.LocalDate
 
+/**
+ * This class represents a fragment for adding and subtracting water drunk by the user.
+ */
 class WaterFragment : Fragment() {
 
     var waterInterface: WaterFragmentInterface? = null
@@ -23,6 +26,9 @@ class WaterFragment : Fragment() {
     val waterDrunkModel = database.reference.child(uid.toString()).child("WATER_DRUNK_MODEL")
         .child(LocalDate.now().dayOfWeek.toString().toLowerCase())
 
+    /**
+     * This function is called to create the WaterFragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +46,9 @@ class WaterFragment : Fragment() {
         }
     }
 
+    /**
+     * This function is called, when WaterFragment's view is already created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         waterDrunkModel.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -93,6 +102,9 @@ class WaterFragment : Fragment() {
 
     }
 
+    /**
+     * This is WaterFragment interface.
+     */
     interface WaterFragmentInterface {
         fun onWaterButtonClicked()
         fun onWaterBodyClicked()

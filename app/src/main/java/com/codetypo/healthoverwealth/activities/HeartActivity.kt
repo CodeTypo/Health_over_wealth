@@ -20,23 +20,27 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_heart.*
-import kotlinx.android.synthetic.main.activity_steps.*
 import kotlin.math.roundToInt
 
-
+/**
+ * This class represents activity for heart rate.
+ */
 class HeartActivity : AppCompatActivity(), SensorEventListener {
     var sensorMgr: SensorManager? = null
     var heartRate: Sensor? = null
     var heartTV: TextView? = null
     var hintTV: TextView? = null
-    var thread: Thread? = null
     var entryValue = 80
 
+    var stage1 = false
     var stage2 = false
-    var stage3 = false
     var oldVal = 0f
+    val database = FirebaseDatabase.getInstance()
+    val uid = FirebaseAuth.getInstance().currentUser?.uid
 
-
+    /**
+     * This function is called when HeartActivity is created.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_heart)
@@ -47,8 +51,8 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
 
         val database = FirebaseDatabase.getInstance()
 
+        stage1 = false
         stage2 = false
-        stage3 = false
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -113,6 +117,9 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         rightAxis.isEnabled = false
     }
 
+    /**
+     * This function creates set.
+     */
     private fun createSet(): LineDataSet {
         val set = LineDataSet(null, "Heart rate")
         set.mode = LineDataSet.Mode.CUBIC_BEZIER
@@ -130,82 +137,90 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
         return set
     }
 
+    /**
+     * This function is called when HeartActivity is resumed.
+     */
     override fun onResume() {
         super.onResume()
         sensorMgr!!.registerListener(this, heartRate, 100000)
+        stage1 = false
         stage2 = false
-        stage3 = false
     }
 
+    /**
+     * This function is called when HeartActivity is paused.
+     */
     override fun onPause() {
         super.onPause()
         sensorMgr!!.unregisterListener(this)
+        stage1 = false
         stage2 = false
-        stage3 = false
     }
 
+    /**
+     * This function is called when the sensor changes its value.
+     */
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             heartTV?.text = event.values[0].roundToInt().toString()
 
 
-            if (stage2){
+            if (stage1) {
                 hintTV?.text = "Stage 2"
             }
 
-            if (stage3){
-                hintTV?.text = "All good! Measure Your heart rate for about 10 seconds to let it stabilize. Afterwards, You can remove Your finger and the heart rate will be saved!"
+            if (stage2) {
+                hintTV?.text =
+                    "All good! Measure your heart rate for about 10 seconds to let it stabilize. Afterwards, you can remove your finger and the heart rate will be saved!"
             }
-
-
-
 
 
             val data: LineData = heart_chart.data
-            if (data != null) {
-                var set = data.getDataSetByIndex(0)
-                if (set == null) {
-                    set = createSet()
-                    data.addDataSet(set)
-                }
-
-                if (event.values[0].toInt() > 0) {
-                    entryValue = event.values[0].toInt()
-                }
-
-                val database = FirebaseDatabase.getInstance()
-
-                val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-                val heartRateModel =
-                    database.reference.child(uid.toString()).child("HEART_RATE_MODEL").child("heart_rate")
-
-                heartRateModel.setValue(entryValue.toString())
-
-                data.addEntry((Entry(set.entryCount.toFloat(),
-                    entryValue.toFloat())), 0)
-                heartMonitorTV.text = entryValue.toString()
-                data.notifyDataChanged()
-                heart_chart.notifyDataSetChanged()
-
-                heart_chart.setVisibleXRangeMaximum(20F)
-
-                if(oldVal != 0f && oldVal != entryValue.toFloat())
-                    if(stage2 == false)
-                        stage2 = true
-
-                if(oldVal != 0f && oldVal.toInt() == entryValue.toInt())
-                    stage3 = true
-                    stage2 = false
-
-                heart_chart.moveViewToX(data.entryCount.toFloat())
-                oldVal = entryValue.toFloat()
+            var set = data.getDataSetByIndex(0)
+            if (set == null) {
+                set = createSet()
+                data.addDataSet(set)
             }
+
+            if (event.values[0].toInt() > 0) {
+                entryValue = event.values[0].toInt()
+            }
+
+            val database = FirebaseDatabase.getInstance()
+
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+            val heartRateModel =
+                database.reference.child(uid.toString()).child("HEART_RATE_MODEL")
+                    .child("heart_rate")
+
+            heartRateModel.setValue(entryValue.toString())
+
+            data.addEntry((Entry(set.entryCount.toFloat(),
+                entryValue.toFloat())), 0)
+            heartMonitorTV.text = entryValue.toString()
+            data.notifyDataChanged()
+            heart_chart.notifyDataSetChanged()
+
+            heart_chart.setVisibleXRangeMaximum(20F)
+
+            if (oldVal != 0f && oldVal != entryValue.toFloat())
+                if (stage1 == false)
+                    stage1 = true
+
+            if (oldVal != 0f && oldVal.toInt() == entryValue.toInt())
+                stage2 = true
+            stage1 = false
+
+            heart_chart.moveViewToX(data.entryCount.toFloat())
+            oldVal = entryValue.toFloat()
 
         }
     }
 
+    /**
+     * This function is called when the accuracy of the sensors has changed.
+     */
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d("ACC", "changed")
     }
 }
