@@ -118,7 +118,7 @@ class HeartActivity : AppCompatActivity(), SensorEventListener {
     }
 
     /**
-     * This function creates set.
+     * This function creates set of data which is later being updated with heart rate values acquired from the heart rate sensor.
      */
     private fun createSet(): LineDataSet {
         val set = LineDataSet(null, "Heart rate")

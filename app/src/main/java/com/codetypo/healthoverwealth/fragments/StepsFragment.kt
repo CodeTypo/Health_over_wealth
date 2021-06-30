@@ -72,6 +72,10 @@ class StepsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_steps, container, false)
     }
 
+    /**
+     * This function is being called while the fragment is being attached, it checks if the class
+     * calling this fragment implemented the required interface
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -82,6 +86,10 @@ class StepsFragment : Fragment() {
         }
     }
 
+    /**
+     * After the activity gets created, an onClickListener redirecting to the new activity is being
+     * registered to the whole Bmi tile body.
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         stepsBody.setOnClickListener {

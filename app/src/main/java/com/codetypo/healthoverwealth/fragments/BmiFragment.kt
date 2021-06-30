@@ -163,6 +163,13 @@ class BmiFragment : Fragment() {
         }
     }
 
+    /**
+     *
+     * This function is being called while the fragment is being attached, it checks if the class
+     * calling this fragment implemented the required interface
+     *
+     */
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -173,6 +180,10 @@ class BmiFragment : Fragment() {
         }
     }
 
+    /**
+     * After the activity gets created, an onClickListener redirecting to the new activity is being
+     * registered to the whole Bmi tile body.
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bmiBody.setOnClickListener {
